@@ -47,7 +47,7 @@ class ApiExceptionHandler {
 
     @ExceptionHandler(BizException::class)
     fun handleBizException(ex: BizException): ResponseEntity<ExceptionDto> {
-        val exception = ExceptionDto(ex.resultCode.code, ex.resultCode.value)
+        val exception = ExceptionDto(ex.resultCode.code, ex.exactMessage)
         return ResponseEntity.status(ex.resultCode.code).body(exception)
     }
 }

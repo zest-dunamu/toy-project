@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class MemberService (
+    // TODO: Spring Security + JWT 인증 구현
+
     private val memberRepository: MemberRepository
     ) {
     fun findById(memberId: Long): Member =
