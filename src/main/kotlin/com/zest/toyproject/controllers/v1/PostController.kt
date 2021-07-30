@@ -1,0 +1,77 @@
+package com.zest.toyproject.controllers.v1
+
+import com.zest.toyproject.models.request.BoardUpdateRequest
+import com.zest.toyproject.models.request.PostCreateRequest
+import com.zest.toyproject.models.request.PostUpdateRequest
+import com.zest.toyproject.responses.BoardResponse
+import com.zest.toyproject.responses.PostResponse
+import com.zest.toyproject.services.PostService
+import io.swagger.annotations.ApiOperation
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
+
+@RestController
+@RequestMapping("/api/posts")
+class PostController(
+    private val postService: PostService
+) {
+
+    @ApiOperation(value = "게시글 조회")
+    @GetMapping("/{postId}")
+    fun getPost(@PathVariable postId: Long): PostResponse {
+        return postService.findById(postId).let {
+            PostResponse(
+                id = it.id!!,
+                title = it.title,
+                content = it.content,
+                likeCount = it.likeCount,
+            )
+        }
+    }
+
+    @ApiOperation(value = "게시글 등록")
+    @PostMapping
+    fun create(@Valid @RequestBody postCreateRequest: PostCreateRequest): ResponseEntity<PostResponse> {
+        val body: PostResponse = postService.createPost(postCreateRequest).let {
+            PostResponse(
+                id = it.id!!,
+                title = it.title,
+                content = it.content,
+                likeCount = it.likeCount,
+            )
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(body)
+    }
+
+    @ApiOperation(value = "게시글 수정")
+    @PutMapping("/{postId}")
+    fun update(
+        @PathVariable postId: Long,
+        @RequestParam(required = true) memberId: Long,
+        @RequestParam(required = false) title: String?,
+        @RequestParam(required = false) content: String?,
+    ): PostResponse {
+        val postUpdateRequest =
+            PostUpdateRequest(
+                postId = postId,
+                memberId =memberId,
+                title = title,
+                content = content
+            )
+
+        return postService.updatePost(postUpdateRequest).let {
+            PostResponse(
+                id = it.id!!,
+                title = it.title,
+                content = it.content,
+                likeCount = it.likeCount,
+            )
+        }
+    }
+
+    @ApiOperation(value = "게시글 삭제")
+    @DeleteMapping("/{boardId}")
+    fun delete(@PathVariable boardId: Long) = postService.deletePost(boardId)
+}
