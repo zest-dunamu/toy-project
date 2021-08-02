@@ -1,9 +1,7 @@
 package com.zest.toyproject.models
 
 import com.zest.toyproject.common.entities.BaseEntity
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "boards")
@@ -12,5 +10,8 @@ class Board (
     var title: String,
 
     var description: String? = null,
+
+    @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL])
+    var posts: MutableList<Post> = mutableListOf()
 
     ) : BaseEntity()

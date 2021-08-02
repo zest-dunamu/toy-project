@@ -13,12 +13,12 @@ class Post (
 
     var likeCount: Int = 0,
 
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     var member: Member,
 
-    @ManyToOne
-    @JoinColumn(name = "board_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
     var board: Board,
 
 ) : BaseEntity()
