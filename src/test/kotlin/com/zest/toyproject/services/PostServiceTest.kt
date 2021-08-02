@@ -87,4 +87,25 @@ class PostServiceTest @Autowired constructor(
         assertThat(changePost.title).isEqualTo("change")
         assertThat(changePost.content).isEqualTo("change content")
     }
+
+    @Test
+    @DisplayName("게시글 내용만 변경")
+    fun 게시글_내용만_변경_성공() {
+
+        val originPost = testPost.id?.let { postService.findById(it) }
+
+        val changePost = postService.updatePost(
+            PostUpdateRequest(
+                memberId = testMember.id!!,
+                postId = testPost.id!!,
+                title = null,
+                content = "only change content"
+            )
+        )
+
+        assertThat(changePost).isNotNull
+        assertThat(changePost!!.id).isEqualTo(originPost!!.id)
+        assertThat(changePost.title).isEqualTo(originPost.title)
+        assertThat(changePost.content).isEqualTo("only change content")
+    }
 }

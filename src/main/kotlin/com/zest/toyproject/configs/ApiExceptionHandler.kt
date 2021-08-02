@@ -1,4 +1,4 @@
-package com.zest.toyproject.controllers
+package com.zest.toyproject.configs
 
 import com.zest.toyproject.common.exceptions.BadRequestException
 import com.zest.toyproject.common.exceptions.BizException
