@@ -1,4 +1,4 @@
-package com.zest.toyproject.controllers.v1
+package com.zest.toyproject.controllers
 
 import com.zest.toyproject.models.Member
 import com.zest.toyproject.models.request.SignUpMemberRequest

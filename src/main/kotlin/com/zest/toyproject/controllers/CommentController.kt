@@ -1,4 +1,4 @@
-package com.zest.toyproject.controllers.v1
+package com.zest.toyproject.controllers
 
 import com.zest.toyproject.models.request.CommentCreateRequest
 import com.zest.toyproject.models.request.CommentUpdateRequest

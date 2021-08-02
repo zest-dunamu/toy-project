@@ -1,10 +1,8 @@
-package com.zest.toyproject.controllers.v1
+package com.zest.toyproject.controllers
 
 import com.zest.toyproject.models.request.BoardCreateRequest
 import com.zest.toyproject.models.request.BoardUpdateRequest
 import com.zest.toyproject.responses.BoardResponse
-import com.zest.toyproject.responses.BoardWithPostsResponse
-import com.zest.toyproject.responses.PostResponse
 import com.zest.toyproject.services.BoardService
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
@@ -69,17 +67,4 @@ class BoardController(
     @ApiOperation(value = "게시판 삭제")
     @DeleteMapping("/{boardId}")
     fun delete(@PathVariable boardId: Long) = boardService.deleteBoard(boardId)
-
-//    @ApiOperation(value = "게시판 조회 + 게시글들")
-//    @GetMapping("/{boardId}")
-//    fun getBoardWithPosts(@PathVariable boardId: Long, @RequestParam(required = false) posts: Boolean,): BoardWithPostsResponse {
-//        return boardService.findBoardWithPostsById(boardId).let {
-//            BoardWithPostsResponse(
-//                id = it.id!!,
-//                title = it.title,
-//                description = it.description,
-//                posts = PostResponse.convertPostResponses(it.posts)
-//            )
-//        }
-//    }
 }

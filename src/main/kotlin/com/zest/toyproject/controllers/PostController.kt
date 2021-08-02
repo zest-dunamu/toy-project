@@ -1,9 +1,7 @@
-package com.zest.toyproject.controllers.v1
+package com.zest.toyproject.controllers
 
-import com.zest.toyproject.models.request.BoardUpdateRequest
 import com.zest.toyproject.models.request.PostCreateRequest
 import com.zest.toyproject.models.request.PostUpdateRequest
-import com.zest.toyproject.responses.BoardResponse
 import com.zest.toyproject.responses.MemberResponse
 import com.zest.toyproject.responses.PostResponse
 import com.zest.toyproject.services.PostService
