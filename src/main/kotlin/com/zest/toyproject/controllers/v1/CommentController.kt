@@ -3,6 +3,7 @@ package com.zest.toyproject.controllers.v1
 import com.zest.toyproject.models.request.CommentCreateRequest
 import com.zest.toyproject.models.request.CommentUpdateRequest
 import com.zest.toyproject.responses.CommentResponse
+import com.zest.toyproject.responses.MemberResponse
 import com.zest.toyproject.services.CommentService
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
@@ -24,7 +25,7 @@ class CommentController(
                 id = it.id!!,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = CommentResponse.convertMemberResponse(member = it.member)
+                writer = MemberResponse.convertMemberResponse(member = it.member)
             )
         }
     }
@@ -37,7 +38,7 @@ class CommentController(
                 id = it.id!!,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = CommentResponse.convertMemberResponse(member = it.member)
+                writer = MemberResponse.convertMemberResponse(member = it.member)
             )
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(body)
@@ -62,7 +63,7 @@ class CommentController(
                 id = it.id!!,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = CommentResponse.convertMemberResponse(member = it.member)
+                writer = MemberResponse.convertMemberResponse(member = it.member)
             )
         }
     }

@@ -4,6 +4,7 @@ import com.zest.toyproject.models.request.BoardUpdateRequest
 import com.zest.toyproject.models.request.PostCreateRequest
 import com.zest.toyproject.models.request.PostUpdateRequest
 import com.zest.toyproject.responses.BoardResponse
+import com.zest.toyproject.responses.MemberResponse
 import com.zest.toyproject.responses.PostResponse
 import com.zest.toyproject.services.PostService
 import io.swagger.annotations.ApiOperation
@@ -27,6 +28,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
+                writer = MemberResponse.convertMemberResponse(it.member)
             )
         }
     }
@@ -40,6 +42,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
+                writer = MemberResponse.convertMemberResponse(it.member)
             )
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(body)
@@ -67,6 +70,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
+                writer = MemberResponse.convertMemberResponse(it.member)
             )
         }
     }
