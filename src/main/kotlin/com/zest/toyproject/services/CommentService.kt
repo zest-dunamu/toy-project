@@ -9,11 +9,11 @@ import com.zest.toyproject.repositories.CommentRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CommentService (
+class CommentService(
     private val commentRepository: CommentRepository,
     private val memberService: MemberService,
     private val postService: PostService,
-    ) {
+) {
     fun findById(commentId: Long): Comment =
         commentRepository.findById(commentId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 댓글입니다.") }
 
@@ -31,8 +31,8 @@ class CommentService (
         var comment = findById(commentUpdateRequest.commentId)
         val member = memberService.findById(commentUpdateRequest.memberId)
 
-        if(comment.member != member){
-            throw BizException(Errors.NOT_ACCEPTABLE,"댓글의 작성자가 아닙니다.")
+        if (comment.member != member) {
+            throw BizException(Errors.NOT_ACCEPTABLE, "댓글의 작성자가 아닙니다.")
         }
 
         comment.content = commentUpdateRequest.content ?: comment.content

@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "comments")
-class Comment (
+class Comment(
 
     var content: String? = null,
 
@@ -18,5 +18,4 @@ class Comment (
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     var post: Post,
-
 ) : BaseEntity()

@@ -61,12 +61,12 @@ class ToyProjectApplication {
 
         //dummy comment
         val dummyComment = commentRepository.save(
-           Comment(
-               content = "dummy",
-               member = dummyMember,
-               post = dummyPost,
-               likeCount = 0
-           )
+            Comment(
+                content = "dummy",
+                member = dummyMember,
+                post = dummyPost,
+                likeCount = 0
+            )
         )
         log.info("========================================")
     }

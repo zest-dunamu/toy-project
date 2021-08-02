@@ -9,7 +9,7 @@ data class PostCreateRequest(
     val content: String,
 
     @field: NotNull
-    val memberId:Long,
+    val memberId: Long,
 
     @field: NotNull
     val boardId: Long

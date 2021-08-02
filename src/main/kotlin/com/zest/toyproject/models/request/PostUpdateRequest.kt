@@ -4,10 +4,10 @@ import javax.validation.constraints.NotNull
 
 data class PostUpdateRequest(
     @field: NotNull
-    val postId : Long,
+    val postId: Long,
 
     @field: NotNull
-    val memberId :Long,
+    val memberId: Long,
 
     val title: String?,
 

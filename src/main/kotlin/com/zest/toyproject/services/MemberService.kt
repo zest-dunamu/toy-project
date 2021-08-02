@@ -10,13 +10,13 @@ import com.zest.toyproject.responses.MemberResponse
 import org.springframework.stereotype.Service
 
 @Service
-class MemberService (
+class MemberService(
     // TODO: Spring Security + JWT 인증 구현
 
     private val memberRepository: MemberRepository
-    ) {
+) {
     fun findById(memberId: Long): Member =
-        memberRepository.findById(memberId).orElseThrow { BizException(Errors.NOT_FOUND,"존재하지 않는 멤버입니다.") }
+        memberRepository.findById(memberId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 멤버입니다.") }
 
     fun findByUsername(username: String): Member =
         memberRepository.findOneByUsername(username).orElseThrow { BizException(Errors.NOT_FOUND) }
@@ -27,7 +27,7 @@ class MemberService (
     fun signUp(signUpMemberRequest: SignUpMemberRequest): MemberResponse? {
 
         if (isExistUsername(signUpMemberRequest.username))
-            return throw BizException(Errors.CONFLICT,"이미 존재하는 아이디입니다.")
+            return throw BizException(Errors.CONFLICT, "이미 존재하는 아이디입니다.")
 
         val member = Member(
             username = signUpMemberRequest.username,
@@ -45,10 +45,10 @@ class MemberService (
         }
     }
 
-    fun signIn(signInMemberRequest: SignInMemberRequest) : MemberResponse{
+    fun signIn(signInMemberRequest: SignInMemberRequest): MemberResponse {
         val member = findByUsername(signInMemberRequest.username)
 
-        if (!isCorrectPassword(member,signInMemberRequest.password)){
+        if (!isCorrectPassword(member, signInMemberRequest.password)) {
             throw BizException(Errors.WRONG_PASSWORD)
         }
 

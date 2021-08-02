@@ -34,7 +34,7 @@ class CommentServiceTest @Autowired constructor(
     @BeforeEach
     fun setup() {
         testMember = memberService.findById(1L)
-        testPost= postService.findById(1L)
+        testPost = postService.findById(1L)
 
         val comment = Comment(
             content = "this is test comment",
@@ -94,10 +94,10 @@ class CommentServiceTest @Autowired constructor(
 
     @Test
     @DisplayName("댓글 삭제")
-    fun 댓글삭제_성공(){
+    fun 댓글_삭제_성공() {
 
         commentService.deleteComment(testComment.id!!)
-        Assertions.assertThatThrownBy {commentService.findById(testComment.id!!)}.isInstanceOf(
+        Assertions.assertThatThrownBy { commentService.findById(testComment.id!!) }.isInstanceOf(
             BizException::class.java
         ).hasMessageContaining("존재하지 않는 댓글입니다.")
     }

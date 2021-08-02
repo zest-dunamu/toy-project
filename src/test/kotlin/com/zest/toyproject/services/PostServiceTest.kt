@@ -42,13 +42,15 @@ class PostServiceTest @Autowired constructor(
 
     @Test
     @DisplayName("새로운 게시글 등록")
-    fun 게시글등록_성공(){
-        var post = postService.createPost(PostCreateRequest(
-            memberId = testMember.id!!,
-            boardId = testBoard.id!!,
-            title = "add post",
-            content = "test post test post"
-        ))
+    fun 게시글등록_성공() {
+        var post = postService.createPost(
+            PostCreateRequest(
+                memberId = testMember.id!!,
+                boardId = testBoard.id!!,
+                title = "add post",
+                content = "test post test post"
+            )
+        )
 
         assertThat(post).isNotNull
         assertThat(post.id).isNotNull

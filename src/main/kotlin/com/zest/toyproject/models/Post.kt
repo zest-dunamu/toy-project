@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "posts")
-class Post (
+class Post(
     @Column(nullable = false, length = 50)
     var title: String,
 
@@ -23,5 +23,4 @@ class Post (
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL])
     var comments: MutableList<Comment> = mutableListOf(),
-
 ) : BaseEntity()

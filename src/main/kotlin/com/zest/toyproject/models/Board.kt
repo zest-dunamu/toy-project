@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "boards")
-class Board (
+class Board(
     @Column(nullable = false, length = 50, unique = true)
     var title: String,
 
@@ -14,4 +14,4 @@ class Board (
     @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL])
     var posts: MutableList<Post> = mutableListOf()
 
-    ) : BaseEntity()
+) : BaseEntity()

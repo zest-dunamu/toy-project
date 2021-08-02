@@ -9,9 +9,9 @@ import com.zest.toyproject.repositories.BoardRepository
 import org.springframework.stereotype.Service
 
 @Service
-class BoardService (
+class BoardService(
     private val boardRepository: BoardRepository
-    ) {
+) {
     fun findById(boardId: Long): Board =
         boardRepository.findById(boardId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시판입니다.") }
 
@@ -32,7 +32,7 @@ class BoardService (
     }
 
     fun updateBoard(boardUpdateRequest: BoardUpdateRequest): Board {
-        var board = findById(boardUpdateRequest.boardId)
+        val board = findById(boardUpdateRequest.boardId)
 
         board.title = boardUpdateRequest.title?.let {
             boardDuplicateCheck(it)
@@ -48,6 +48,10 @@ class BoardService (
         val board: Board = findById(boardId)
         return boardRepository.delete(board)
     }
+
+    fun findBoardWithPostsById(boardId: Long): Board =
+        boardRepository.findBoardWithPosts(boardId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시판입니다.") }
+
 
     private fun boardDuplicateCheck(title: String) {
         if (isExistTitle(title))

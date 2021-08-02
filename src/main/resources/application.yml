@@ -12,6 +12,9 @@ spring:
     generate-ddl: true
     show-sql: true
     hibernate:
+      show_sql: true
+      format_sql: true
+      use_sql_comments: true
       ddl-auto: create-drop
 ---
 spring:

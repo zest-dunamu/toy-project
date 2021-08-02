@@ -6,9 +6,9 @@ data class MemberResponse(
     val id: Long,
     val username: String,
     val nickname: String
-){
+) {
     companion object {
-        fun convertMemberResponse(member: Member) : MemberResponse {
+        fun convertMemberResponse(member: Member): MemberResponse {
             return MemberResponse(
                 id = member.id!!,
                 username = member.username,

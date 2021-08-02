@@ -16,13 +16,7 @@ class PostService (
     ) {
     fun findById(postId: Long): Post =
         postRepository.findById(postId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시글입니다.") }
-
-    fun findByTitle(title: String): Post =
-        postRepository.findOneByTitle(title).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시글입니다.") }
-
-    fun isExistTitle(title: String): Boolean =
-        postRepository.existsByTitle(title)
-
+    
     fun createPost(postCreateRequest: PostCreateRequest): Post {
         val post = Post(
             title = postCreateRequest.title,

@@ -54,7 +54,7 @@ class CommentController(
         val commentUpdateRequest =
             CommentUpdateRequest(
                 commentId = commentId,
-                memberId =memberId,
+                memberId = memberId,
                 content = content
             )
 

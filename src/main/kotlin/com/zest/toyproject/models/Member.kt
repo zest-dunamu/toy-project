@@ -7,7 +7,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "members")
-class Member (
+class Member(
     @Column(nullable = false, length = 50, unique = true)
     var username: String,
 
@@ -15,5 +15,4 @@ class Member (
 
     @Column(nullable = false)
     var password: String,
-
 ) : BaseEntity()

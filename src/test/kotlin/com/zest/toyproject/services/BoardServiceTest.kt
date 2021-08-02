@@ -111,7 +111,7 @@ class BoardServiceTest @Autowired constructor(
 
     @Test
     @DisplayName("게시판 삭제")
-    fun 게시판_삭제(){
+    fun 게시판_삭제() {
         boardService.deleteBoard(testBoard.id!!)
 
         assertThatThrownBy { boardService.findById(testBoard.id!!) }.isInstanceOf(

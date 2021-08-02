@@ -19,8 +19,8 @@ class MemberController(
 
     @ApiOperation(value = "멤버 조회")
     @GetMapping("/{memberId}")
-    fun getMember(@PathVariable memberId:Long) : MemberResponse {
-        val member:Member = memberService.findById(memberId)
+    fun getMember(@PathVariable memberId: Long): MemberResponse {
+        val member: Member = memberService.findById(memberId)
 
         return MemberResponse(
             id = member.id!!,
@@ -31,13 +31,13 @@ class MemberController(
 
     @ApiOperation(value = "회원가입")
     @PostMapping
-    fun signUp(@Valid @RequestBody memberInfo:SignUpMemberRequest) : ResponseEntity<MemberResponse> {
+    fun signUp(@Valid @RequestBody memberInfo: SignUpMemberRequest): ResponseEntity<MemberResponse> {
         return ResponseEntity.status(HttpStatus.CREATED).body(memberService.signUp(memberInfo))
     }
 
     @ApiOperation(value = "로그인")
     @PostMapping("/signin")
-    fun signIn(@Valid @RequestBody signInMemberRequest: SignInMemberRequest) : MemberResponse{
+    fun signIn(@Valid @RequestBody signInMemberRequest: SignInMemberRequest): MemberResponse {
         return memberService.signIn(signInMemberRequest)
     }
 

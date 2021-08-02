@@ -59,7 +59,7 @@ class PostController(
         val postUpdateRequest =
             PostUpdateRequest(
                 postId = postId,
-                memberId =memberId,
+                memberId = memberId,
                 title = title,
                 content = content
             )

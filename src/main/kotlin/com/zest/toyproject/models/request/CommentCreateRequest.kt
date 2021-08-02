@@ -7,7 +7,7 @@ data class CommentCreateRequest(
     val content: String,
 
     @field: NotNull
-    val memberId:Long,
+    val memberId: Long,
 
     @field: NotNull
     val postId: Long
