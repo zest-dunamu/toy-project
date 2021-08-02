@@ -3,8 +3,8 @@ package com.zest.toyproject.services
 import com.zest.toyproject.common.enums.Errors
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.models.Comment
-import com.zest.toyproject.models.request.CommentCreateRequest
-import com.zest.toyproject.models.request.CommentUpdateRequest
+import com.zest.toyproject.dto.request.CommentCreateRequest
+import com.zest.toyproject.dto.request.CommentUpdateRequest
 import com.zest.toyproject.repositories.CommentRepository
 import org.springframework.stereotype.Service
 

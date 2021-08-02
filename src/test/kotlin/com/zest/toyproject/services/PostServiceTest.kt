@@ -4,8 +4,8 @@ import com.zest.toyproject.AbstractIntegrationTest
 import com.zest.toyproject.models.Board
 import com.zest.toyproject.models.Member
 import com.zest.toyproject.models.Post
-import com.zest.toyproject.models.request.PostCreateRequest
-import com.zest.toyproject.models.request.PostUpdateRequest
+import com.zest.toyproject.dto.request.PostCreateRequest
+import com.zest.toyproject.dto.request.PostUpdateRequest
 import com.zest.toyproject.repositories.PostRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach

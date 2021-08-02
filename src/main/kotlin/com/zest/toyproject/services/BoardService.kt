@@ -3,8 +3,8 @@ package com.zest.toyproject.services
 import com.zest.toyproject.common.enums.Errors
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.models.Board
-import com.zest.toyproject.models.request.BoardCreateRequest
-import com.zest.toyproject.models.request.BoardUpdateRequest
+import com.zest.toyproject.dto.request.BoardCreateRequest
+import com.zest.toyproject.dto.request.BoardUpdateRequest
 import com.zest.toyproject.repositories.BoardRepository
 import org.springframework.stereotype.Service
 

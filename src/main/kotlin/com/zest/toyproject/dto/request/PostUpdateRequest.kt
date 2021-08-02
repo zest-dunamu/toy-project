@@ -1,4 +1,4 @@
-package com.zest.toyproject.models.request
+package com.zest.toyproject.dto.request
 
 import javax.validation.constraints.NotNull
 

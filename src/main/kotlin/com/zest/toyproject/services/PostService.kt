@@ -3,8 +3,8 @@ package com.zest.toyproject.services
 import com.zest.toyproject.common.enums.Errors
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.models.Post
-import com.zest.toyproject.models.request.PostCreateRequest
-import com.zest.toyproject.models.request.PostUpdateRequest
+import com.zest.toyproject.dto.request.PostCreateRequest
+import com.zest.toyproject.dto.request.PostUpdateRequest
 import com.zest.toyproject.repositories.PostRepository
 import org.springframework.stereotype.Service
 
@@ -16,7 +16,7 @@ class PostService (
     ) {
     fun findById(postId: Long): Post =
         postRepository.findById(postId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시글입니다.") }
-    
+
     fun createPost(postCreateRequest: PostCreateRequest): Post {
         val post = Post(
             title = postCreateRequest.title,

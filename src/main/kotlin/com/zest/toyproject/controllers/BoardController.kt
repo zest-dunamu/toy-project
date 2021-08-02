@@ -1,8 +1,8 @@
 package com.zest.toyproject.controllers
 
-import com.zest.toyproject.models.request.BoardCreateRequest
-import com.zest.toyproject.models.request.BoardUpdateRequest
-import com.zest.toyproject.responses.BoardResponse
+import com.zest.toyproject.dto.request.BoardCreateRequest
+import com.zest.toyproject.dto.request.BoardUpdateRequest
+import com.zest.toyproject.dto.response.BoardResponse
 import com.zest.toyproject.services.BoardService
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus

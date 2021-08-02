@@ -1,4 +1,4 @@
-package com.zest.toyproject.responses
+package com.zest.toyproject.dto.response
 
 data class CommentResponse(
     val id: Long,

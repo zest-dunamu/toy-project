@@ -1,9 +1,9 @@
 package com.zest.toyproject.controllers
 
-import com.zest.toyproject.models.request.PostCreateRequest
-import com.zest.toyproject.models.request.PostUpdateRequest
-import com.zest.toyproject.responses.MemberResponse
-import com.zest.toyproject.responses.PostResponse
+import com.zest.toyproject.dto.request.PostCreateRequest
+import com.zest.toyproject.dto.request.PostUpdateRequest
+import com.zest.toyproject.dto.response.MemberResponse
+import com.zest.toyproject.dto.response.PostResponse
 import com.zest.toyproject.services.PostService
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus

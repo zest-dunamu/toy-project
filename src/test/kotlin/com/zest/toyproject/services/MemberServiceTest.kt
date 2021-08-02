@@ -3,8 +3,8 @@ package com.zest.toyproject.services
 import com.zest.toyproject.AbstractIntegrationTest
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.models.Member
-import com.zest.toyproject.models.request.SignUpMemberRequest
-import com.zest.toyproject.models.request.SignInMemberRequest
+import com.zest.toyproject.dto.request.SignUpMemberRequest
+import com.zest.toyproject.dto.request.SignInMemberRequest
 import com.zest.toyproject.repositories.MemberRepository
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat

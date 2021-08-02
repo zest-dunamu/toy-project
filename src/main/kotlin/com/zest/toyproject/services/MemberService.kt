@@ -3,10 +3,10 @@ package com.zest.toyproject.services
 import com.zest.toyproject.common.enums.Errors
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.models.Member
-import com.zest.toyproject.models.request.SignUpMemberRequest
-import com.zest.toyproject.models.request.SignInMemberRequest
+import com.zest.toyproject.dto.request.SignUpMemberRequest
+import com.zest.toyproject.dto.request.SignInMemberRequest
 import com.zest.toyproject.repositories.MemberRepository
-import com.zest.toyproject.responses.MemberResponse
+import com.zest.toyproject.dto.response.MemberResponse
 import org.springframework.stereotype.Service
 
 @Service

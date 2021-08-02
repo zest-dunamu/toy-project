@@ -6,9 +6,8 @@ import com.zest.toyproject.models.Board
 import com.zest.toyproject.models.Comment
 import com.zest.toyproject.models.Member
 import com.zest.toyproject.models.Post
-import com.zest.toyproject.models.request.CommentCreateRequest
-import com.zest.toyproject.models.request.CommentUpdateRequest
-import com.zest.toyproject.models.request.PostUpdateRequest
+import com.zest.toyproject.dto.request.CommentCreateRequest
+import com.zest.toyproject.dto.request.CommentUpdateRequest
 import com.zest.toyproject.repositories.CommentRepository
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat

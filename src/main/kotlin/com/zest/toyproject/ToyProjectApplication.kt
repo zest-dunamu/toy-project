@@ -4,12 +4,10 @@ import com.zest.toyproject.models.Board
 import com.zest.toyproject.models.Comment
 import com.zest.toyproject.models.Member
 import com.zest.toyproject.models.Post
-import com.zest.toyproject.models.request.BoardCreateRequest
 import com.zest.toyproject.repositories.BoardRepository
 import com.zest.toyproject.repositories.CommentRepository
 import com.zest.toyproject.repositories.MemberRepository
 import com.zest.toyproject.repositories.PostRepository
-import com.zest.toyproject.services.PostService
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
