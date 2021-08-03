@@ -5,16 +5,20 @@ import com.zest.toyproject.dto.request.CommentUpdateRequest
 import com.zest.toyproject.dto.response.CommentResponse
 import com.zest.toyproject.dto.response.MemberResponse
 import com.zest.toyproject.services.CommentService
+import com.zest.toyproject.services.MemberService
+import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
+@Api(tags = ["댓글"])
 @RestController
 @RequestMapping("/api/comments")
 class CommentController(
-    private val commentService: CommentService
+    private val commentService: CommentService,
+    private val memberService: MemberService
 ) {
 
     @ApiOperation(value = "댓글 조회")
@@ -49,16 +53,12 @@ class CommentController(
     fun update(
         @PathVariable commentId: Long,
         @RequestParam(required = true) memberId: Long,
-        @RequestParam(required = false) content: String?,
+        @RequestBody commentUpdateRequest: CommentUpdateRequest,
     ): CommentResponse {
-        val commentUpdateRequest =
-            CommentUpdateRequest(
-                commentId = commentId,
-                memberId = memberId,
-                content = content
-            )
+        val comment = commentService.findById(commentId)
+        val member = memberService.findById(memberId)
 
-        return commentService.updateComment(commentUpdateRequest).let {
+        return commentService.updateComment(comment, member,commentUpdateRequest).let {
             CommentResponse(
                 id = it.id!!,
                 content = it.content,
@@ -70,5 +70,8 @@ class CommentController(
 
     @ApiOperation(value = "댓글 삭제")
     @DeleteMapping("/{commentId}")
-    fun delete(@PathVariable commentId: Long) = commentService.deleteComment(commentId)
+    fun delete(@PathVariable commentId: Long) {
+        val comment = commentService.findById(commentId)
+        commentService.deleteComment(comment)
+    }
 }

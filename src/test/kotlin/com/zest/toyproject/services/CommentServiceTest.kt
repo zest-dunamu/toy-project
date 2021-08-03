@@ -45,9 +45,8 @@ class CommentServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("새로운 댓글 등록")
-    fun 댓글_등록_성공() {
-        var comment = commentService.createComment(
+    fun `댓글 등록 성공`() {
+        val comment = commentService.createComment(
             CommentCreateRequest(
                 memberId = testMember.id!!,
                 postId = testPost.id!!,
@@ -62,9 +61,7 @@ class CommentServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("댓글 조회")
-    fun 댓글조회_성공() {
-
+    fun `댓글 조회 성공`() {
         val findComment = testComment.id?.let { commentService.findById(it) }
 
         assertThat(findComment).isNotNull
@@ -73,15 +70,19 @@ class CommentServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("댓글 변경")
-    fun 댓글변경_성공() {
+    fun `댓글 조회 실패`() {
+        Assertions.assertThatThrownBy { commentService.findById(0) }.isInstanceOf(
+            BizException::class.java
+        ).hasMessageContaining("존재하지 않는 댓글입니다.")
+    }
 
+    @Test
+    fun `댓글 변경 성공`() {
         val originComment = testComment.id?.let { commentService.findById(it) }
 
         val changeComment = commentService.updateComment(
+            originComment!!, testMember,
             CommentUpdateRequest(
-                commentId = testComment.id!!,
-                memberId = testMember.id!!,
                 content = "change content"
             )
         )
@@ -92,13 +93,11 @@ class CommentServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("댓글 삭제")
-    fun 댓글_삭제_성공() {
+    fun `댓글 삭제 성공`() {
+        commentService.deleteComment(testComment)
 
-        commentService.deleteComment(testComment.id!!)
         Assertions.assertThatThrownBy { commentService.findById(testComment.id!!) }.isInstanceOf(
             BizException::class.java
         ).hasMessageContaining("존재하지 않는 댓글입니다.")
     }
-
 }

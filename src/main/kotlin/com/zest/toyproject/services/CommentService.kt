@@ -5,6 +5,7 @@ import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.models.Comment
 import com.zest.toyproject.dto.request.CommentCreateRequest
 import com.zest.toyproject.dto.request.CommentUpdateRequest
+import com.zest.toyproject.models.Member
 import com.zest.toyproject.repositories.CommentRepository
 import org.springframework.stereotype.Service
 
@@ -27,10 +28,7 @@ class CommentService(
         return commentRepository.save(comment)
     }
 
-    fun updateComment(commentUpdateRequest: CommentUpdateRequest): Comment {
-        var comment = findById(commentUpdateRequest.commentId)
-        val member = memberService.findById(commentUpdateRequest.memberId)
-
+    fun updateComment(comment: Comment, member: Member, commentUpdateRequest: CommentUpdateRequest): Comment {
         if (comment.member != member) {
             throw BizException(Errors.NOT_ACCEPTABLE, "댓글의 작성자가 아닙니다.")
         }
@@ -40,8 +38,6 @@ class CommentService(
         return commentRepository.save(comment)
     }
 
-    fun deleteComment(commentId: Long) {
-        var comment = findById(commentId)
-        return commentRepository.delete(comment)
-    }
+    fun deleteComment(comment: Comment) = commentRepository.delete(comment)
+
 }
