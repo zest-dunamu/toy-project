@@ -8,14 +8,14 @@ spring:
     use-legacy-processing: true
   application:
     name: toy-project
+
   jpa:
-    generate-ddl: true
-    show-sql: true
-    hibernate:
-      show_sql: true
-      format_sql: true
-      use_sql_comments: true
-      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        ddl-auto: create-drop
 ---
 spring:
   profiles: local
