@@ -31,9 +31,7 @@ class BoardService(
         return boardRepository.save(board)
     }
 
-    fun updateBoard(boardUpdateRequest: BoardUpdateRequest): Board {
-        val board = findById(boardUpdateRequest.boardId)
-
+    fun updateBoard(board: Board, boardUpdateRequest: BoardUpdateRequest): Board {
         board.title = boardUpdateRequest.title?.let {
             boardDuplicateCheck(it)
             boardUpdateRequest.title
@@ -44,14 +42,10 @@ class BoardService(
         return boardRepository.save(board)
     }
 
-    fun deleteBoard(boardId: Long) {
-        val board: Board = findById(boardId)
-        return boardRepository.delete(board)
-    }
+    fun deleteBoard(board: Board) = boardRepository.delete(board)
 
     fun findBoardWithPostsById(boardId: Long): Board =
         boardRepository.findBoardWithPosts(boardId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시판입니다.") }
-
 
     private fun boardDuplicateCheck(title: String) {
         if (isExistTitle(title))

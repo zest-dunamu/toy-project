@@ -3,6 +3,7 @@ package com.zest.toyproject.controllers
 import com.zest.toyproject.dto.request.BoardCreateRequest
 import com.zest.toyproject.dto.request.BoardUpdateRequest
 import com.zest.toyproject.dto.response.BoardResponse
+import com.zest.toyproject.models.Board
 import com.zest.toyproject.services.BoardService
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
@@ -48,14 +49,15 @@ class BoardController(
         @RequestParam(required = false) title: String?,
         @RequestParam(required = false) description: String?,
     ): BoardResponse {
+        val board: Board = boardService.findById(boardId)
+
         val boardUpdateRequest =
             BoardUpdateRequest(
-                boardId = boardId,
                 title = title,
                 description = description
             )
 
-        return boardService.updateBoard(boardUpdateRequest).let {
+        return boardService.updateBoard(board, boardUpdateRequest).let {
             BoardResponse(
                 id = it.id!!,
                 title = it.title,
@@ -66,5 +68,8 @@ class BoardController(
 
     @ApiOperation(value = "게시판 삭제")
     @DeleteMapping("/{boardId}")
-    fun delete(@PathVariable boardId: Long) = boardService.deleteBoard(boardId)
+    fun delete(@PathVariable boardId: Long) {
+        val board = boardService.findById(boardId)
+        boardService.deleteBoard(board)
+    }
 }

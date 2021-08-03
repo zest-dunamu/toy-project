@@ -32,9 +32,8 @@ class BoardServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("새로운 게시판을 등록한다")
-    fun 게시판등록_성공() {
-        var boardCreateRequest: BoardCreateRequest = BoardCreateRequest(
+    fun `게시판 등록 성공`() {
+        var boardCreateRequest = BoardCreateRequest(
             title = "testBoard-2",
             description = "this is test board-2"
         )
@@ -47,9 +46,8 @@ class BoardServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("게시판의 title은 유일해야 한다.")
-    fun 게시판등록_실패_제목_중복() {
-        var boardCreateRequest: BoardCreateRequest = BoardCreateRequest(
+    fun `게시판 등록 실패-제목 중복`() {
+        var boardCreateRequest = BoardCreateRequest(
             title = "testBoard",
             description = "this is test board"
         )
@@ -59,8 +57,7 @@ class BoardServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("게시판 조회")
-    fun 게시판조회_성공() {
+    fun `게시판 조회 성공`() {
 
         val findBoard = testBoard.id?.let { boardService.findById(it) }
 
@@ -70,14 +67,13 @@ class BoardServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("게시판 변경")
-    fun 게시판변경_성공() {
+    fun `게시판 변경 성공`() {
 
         val originBoard = testBoard.id?.let { boardService.findById(it) }
 
         val changeBoard = boardService.updateBoard(
+            originBoard!!,
             BoardUpdateRequest(
-                boardId = testBoard.id!!,
                 title = "change",
                 description = "change desc"
             )
@@ -90,14 +86,13 @@ class BoardServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("게시판 제목만 변경")
-    fun 게시판_제목만_변경_성공() {
+    fun `게시판 제목만 변경 성공`() {
 
         val originBoard = testBoard.id?.let { boardService.findById(it) }
 
         val changeBoard = boardService.updateBoard(
+            originBoard!!,
             BoardUpdateRequest(
-                boardId = testBoard.id!!,
                 title = "change",
                 description = null
             )
@@ -110,9 +105,27 @@ class BoardServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("게시판 삭제")
-    fun 게시판_삭제() {
-        boardService.deleteBoard(testBoard.id!!)
+    fun `게시판 내용만 변경 성공`() {
+
+        val originBoard = testBoard.id?.let { boardService.findById(it) }
+
+        val changeBoard = boardService.updateBoard(
+            originBoard!!,
+            BoardUpdateRequest(
+                title = null,
+                description = "change description"
+            )
+        )
+
+        assertThat(changeBoard).isNotNull
+        assertThat(changeBoard!!.id).isEqualTo(originBoard!!.id)
+        assertThat(changeBoard.title).isEqualTo(originBoard.title)
+        assertThat(changeBoard.description).isEqualTo("change description")
+    }
+
+    @Test
+    fun `게시판 삭제`() {
+        boardService.deleteBoard(testBoard)
 
         assertThatThrownBy { boardService.findById(testBoard.id!!) }.isInstanceOf(
             BizException::class.java
