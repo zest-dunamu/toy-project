@@ -5,15 +5,16 @@ import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.models.Post
 import com.zest.toyproject.dto.request.PostCreateRequest
 import com.zest.toyproject.dto.request.PostUpdateRequest
+import com.zest.toyproject.models.Member
 import com.zest.toyproject.repositories.PostRepository
 import org.springframework.stereotype.Service
 
 @Service
-class PostService (
+class PostService(
     private val postRepository: PostRepository,
     private val memberService: MemberService,
     private val boardService: BoardService,
-    ) {
+) {
     fun findById(postId: Long): Post =
         postRepository.findById(postId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시글입니다.") }
 
@@ -27,12 +28,9 @@ class PostService (
         return postRepository.save(post)
     }
 
-    fun updatePost(postUpdateRequest: PostUpdateRequest): Post {
-        var post = findById(postUpdateRequest.postId)
-        val member = memberService.findById(postUpdateRequest.memberId)
-
-        if(post.member != member){
-            throw BizException(Errors.NOT_ACCEPTABLE,"게시글의 작성자가 아닙니다.")
+    fun updatePost(post: Post, member: Member, postUpdateRequest: PostUpdateRequest): Post {
+        if (!post.member.equals(member)) {
+            throw BizException(Errors.NOT_ACCEPTABLE, "게시글의 작성자가 아닙니다.")
         }
 
         post.title = postUpdateRequest.title ?: post.title
@@ -41,8 +39,6 @@ class PostService (
         return postRepository.save(post)
     }
 
-    fun deletePost(postId: Long) {
-        var post = findById(postId)
-        return postRepository.delete(post)
-    }
+    fun deletePost(post: Post) = postRepository.delete(post)
+
 }

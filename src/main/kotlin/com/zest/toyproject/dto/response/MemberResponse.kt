@@ -8,7 +8,7 @@ data class MemberResponse(
     val nickname: String
 ) {
     companion object {
-        fun convertMemberResponse(member: Member): MemberResponse {
+        fun of(member: Member): MemberResponse {
             return MemberResponse(
                 id = member.id!!,
                 username = member.username,

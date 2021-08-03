@@ -5,12 +5,14 @@ import com.zest.toyproject.dto.request.BoardUpdateRequest
 import com.zest.toyproject.dto.response.BoardResponse
 import com.zest.toyproject.models.Board
 import com.zest.toyproject.services.BoardService
+import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
+@Api(tags = ["게시판"])
 @RestController
 @RequestMapping("/api/boards")
 class BoardController(

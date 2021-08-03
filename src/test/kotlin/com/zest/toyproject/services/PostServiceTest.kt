@@ -1,15 +1,16 @@
 package com.zest.toyproject.services
 
 import com.zest.toyproject.AbstractIntegrationTest
+import com.zest.toyproject.common.exceptions.BizException
+import com.zest.toyproject.dto.request.PostCreateRequest
+import com.zest.toyproject.dto.request.PostUpdateRequest
 import com.zest.toyproject.models.Board
 import com.zest.toyproject.models.Member
 import com.zest.toyproject.models.Post
-import com.zest.toyproject.dto.request.PostCreateRequest
-import com.zest.toyproject.dto.request.PostUpdateRequest
 import com.zest.toyproject.repositories.PostRepository
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import javax.transaction.Transactional
@@ -41,8 +42,7 @@ class PostServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("새로운 게시글 등록")
-    fun 게시글등록_성공() {
+    fun `게시글 등록 성공`() {
         var post = postService.createPost(
             PostCreateRequest(
                 memberId = testMember.id!!,
@@ -59,9 +59,7 @@ class PostServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("게시글 조회")
-    fun 게시글조회_성공() {
-
+    fun `게시글 조회 성공`() {
         val findPost = testPost.id?.let { postService.findById(it) }
 
         assertThat(findPost).isNotNull
@@ -70,15 +68,19 @@ class PostServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("게시글 변경")
-    fun 게시글변경_성공() {
+    fun `게시글 조회 실패`() {
+        Assertions.assertThatThrownBy { postService.findById(0) }.isInstanceOf(
+            BizException::class.java
+        ).hasMessageContaining("존재하지 않는 게시글입니다.")
+    }
 
+    @Test
+    fun `게시글 변경 성공`() {
         val originPost = testPost.id?.let { postService.findById(it) }
 
         val changePost = postService.updatePost(
+            originPost!!, testMember,
             PostUpdateRequest(
-                memberId = testMember.id!!,
-                postId = testPost.id!!,
                 title = "change",
                 content = "change content"
             )
@@ -91,15 +93,12 @@ class PostServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("게시글 내용만 변경")
-    fun 게시글_내용만_변경_성공() {
-
+    fun `게시글 내용만 변경 성공`() {
         val originPost = testPost.id?.let { postService.findById(it) }
 
         val changePost = postService.updatePost(
+            originPost!!, testMember,
             PostUpdateRequest(
-                memberId = testMember.id!!,
-                postId = testPost.id!!,
                 title = null,
                 content = "only change content"
             )
@@ -109,5 +108,32 @@ class PostServiceTest @Autowired constructor(
         assertThat(changePost!!.id).isEqualTo(originPost!!.id)
         assertThat(changePost.title).isEqualTo(originPost.title)
         assertThat(changePost.content).isEqualTo("only change content")
+    }
+
+    @Test
+    fun `게시글 제목만 변경 성공`() {
+        val originPost = testPost.id?.let { postService.findById(it) }
+
+        val changePost = postService.updatePost(
+            originPost!!, testMember,
+            PostUpdateRequest(
+                title = "only change title",
+                content = null
+            )
+        )
+
+        assertThat(changePost).isNotNull
+        assertThat(changePost!!.id).isEqualTo(originPost!!.id)
+        assertThat(changePost.title).isEqualTo("only change title")
+        assertThat(changePost.content).isEqualTo(originPost.content)
+    }
+
+    @Test
+    fun `게시글 삭제 성공`(){
+        postService.deletePost(testPost)
+
+        Assertions.assertThatThrownBy { postService.findById(testPost.id!!) }.isInstanceOf(
+            BizException::class.java
+        ).hasMessageContaining("존재하지 않는 게시글입니다.")
     }
 }

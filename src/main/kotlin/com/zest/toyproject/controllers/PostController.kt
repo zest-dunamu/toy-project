@@ -4,17 +4,21 @@ import com.zest.toyproject.dto.request.PostCreateRequest
 import com.zest.toyproject.dto.request.PostUpdateRequest
 import com.zest.toyproject.dto.response.MemberResponse
 import com.zest.toyproject.dto.response.PostResponse
+import com.zest.toyproject.services.MemberService
 import com.zest.toyproject.services.PostService
+import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
+@Api(tags = ["게시글"])
 @RestController
 @RequestMapping("/api/posts")
 class PostController(
-    private val postService: PostService
+    private val postService: PostService,
+    private val memberService: MemberService
 ) {
 
     @ApiOperation(value = "게시글 조회")
@@ -26,7 +30,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.convertMemberResponse(it.member)
+                writer = MemberResponse.of(it.member)
             )
         }
     }
@@ -40,7 +44,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.convertMemberResponse(it.member)
+                writer = MemberResponse.of(it.member)
             )
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(body)
@@ -54,26 +58,30 @@ class PostController(
         @RequestParam(required = false) title: String?,
         @RequestParam(required = false) content: String?,
     ): PostResponse {
+        val post = postService.findById(postId)
+        val member = memberService.findById(memberId)
+
         val postUpdateRequest =
             PostUpdateRequest(
-                postId = postId,
-                memberId = memberId,
                 title = title,
                 content = content
             )
 
-        return postService.updatePost(postUpdateRequest).let {
+        return postService.updatePost(post, member, postUpdateRequest).let {
             PostResponse(
                 id = it.id!!,
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.convertMemberResponse(it.member)
+                writer = MemberResponse.of(it.member)
             )
         }
     }
 
     @ApiOperation(value = "게시글 삭제")
-    @DeleteMapping("/{boardId}")
-    fun delete(@PathVariable boardId: Long) = postService.deletePost(boardId)
+    @DeleteMapping("/{postId}")
+    fun delete(@PathVariable postId: Long) {
+        val post = postService.findById(postId)
+        postService.deletePost(post)
+    }
 }

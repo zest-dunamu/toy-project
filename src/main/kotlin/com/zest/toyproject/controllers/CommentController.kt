@@ -25,7 +25,7 @@ class CommentController(
                 id = it.id!!,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.convertMemberResponse(member = it.member)
+                writer = MemberResponse.of(member = it.member)
             )
         }
     }
@@ -38,7 +38,7 @@ class CommentController(
                 id = it.id!!,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.convertMemberResponse(member = it.member)
+                writer = MemberResponse.of(member = it.member)
             )
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(body)
@@ -63,7 +63,7 @@ class CommentController(
                 id = it.id!!,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.convertMemberResponse(member = it.member)
+                writer = MemberResponse.of(member = it.member)
             )
         }
     }
