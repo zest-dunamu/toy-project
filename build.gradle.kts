@@ -17,14 +17,20 @@ configurations {
         extendsFrom(configurations.annotationProcessor.get())
     }
 }
-
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.persistence.Embeddable")
+}
 repositories {
     mavenCentral()
 }
 
 dependencies {
+
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -32,12 +38,16 @@ dependencies {
 
     implementation("io.springfox:springfox-boot-starter:3.0.0")
 
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+
     implementation(group = "org.modelmapper", name="modelmapper", version="2.3.6")
 
     runtimeOnly ("com.h2database:h2")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+
 }
 
 tasks.withType<KotlinCompile> {
