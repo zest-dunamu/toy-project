@@ -8,6 +8,11 @@ plugins {
     kotlin("plugin.jpa") version "1.5.21"
 }
 
+apply {
+    plugin("org.jetbrains.kotlin.plugin.noarg")
+    plugin("org.jetbrains.kotlin.plugin.allopen")
+}
+
 group = "com.zest"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
