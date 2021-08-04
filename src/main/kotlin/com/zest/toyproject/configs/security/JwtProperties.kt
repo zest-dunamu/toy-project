@@ -8,5 +8,4 @@ import org.springframework.boot.context.properties.ConstructorBinding
 data class JwtProperties(
     val expirationTime: Long,
     val secretKey: String,
-    val logoutTokenExpirationTime: Long
 )

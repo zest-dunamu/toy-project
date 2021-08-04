@@ -45,9 +45,12 @@ dependencies {
 
     implementation("io.jsonwebtoken:jjwt:0.9.1")
 
-    implementation(group = "org.modelmapper", name="modelmapper", version="2.3.6")
+    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3")
 
-    runtimeOnly ("com.h2database:h2")
+    implementation(group = "org.modelmapper", name = "modelmapper", version = "2.3.6")
+
+    runtimeOnly("mysql:mysql-connector-java")
+    runtimeOnly("com.h2database:h2")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

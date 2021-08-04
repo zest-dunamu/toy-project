@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: local
+    active: local-mysql
   config:
     use-legacy-processing: true
   application:
@@ -15,14 +15,15 @@ spring:
         show_sql: true
         format_sql: true
         use_sql_comments: true
-        ddl-auto: create-drop
+
+    hibernate:
+      ddl-auto: create-drop
 token:
   expiration-time: 3600000
   secret-key: zest-key
-  logout-token-expiration-time: 3600
 ---
 spring:
-  profiles: local
+  profiles: local-h2
   h2:
     console:
       enabled: true
@@ -34,3 +35,10 @@ spring:
     url: jdbc:h2:mem:testdb
     username: sa
     password:
+---
+spring:
+  profiles: local-mysql
+  datasource:
+    url: jdbc:mysql://localhost:3307/toy?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 1234
