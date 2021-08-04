@@ -30,7 +30,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.of(it.member)
+                writer = MemberResponse.of(it.member!!)
             )
         }
     }
@@ -44,7 +44,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.of(it.member)
+                writer = MemberResponse.of(it.member!!)
             )
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(body)
@@ -73,7 +73,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.of(it.member)
+                writer = MemberResponse.of(it.member!!)
             )
         }
     }

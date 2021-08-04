@@ -5,16 +5,18 @@ import com.zest.toyproject.dto.request.SignUpMemberRequest
 import com.zest.toyproject.dto.request.SignInMemberRequest
 import com.zest.toyproject.dto.response.MemberResponse
 import com.zest.toyproject.services.MemberService
+import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
+@Api(tags = ["멤버"])
 @RestController
 @RequestMapping("/api/members")
 class MemberController(
-    private val memberService: MemberService
+    private val memberService: MemberService,
 ) {
 
     @ApiOperation(value = "멤버 조회")
@@ -40,5 +42,4 @@ class MemberController(
     fun signIn(@Valid @RequestBody signInMemberRequest: SignInMemberRequest): MemberResponse {
         return memberService.signIn(signInMemberRequest)
     }
-
 }

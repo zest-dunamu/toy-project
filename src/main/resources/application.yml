@@ -16,6 +16,10 @@ spring:
         format_sql: true
         use_sql_comments: true
         ddl-auto: create-drop
+token:
+  expiration-time: 3600000
+  secret-key: zest-key
+  logout-token-expiration-time: 3600
 ---
 spring:
   profiles: local
