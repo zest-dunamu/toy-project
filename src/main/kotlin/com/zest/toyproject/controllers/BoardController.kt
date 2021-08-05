@@ -3,6 +3,8 @@ package com.zest.toyproject.controllers
 import com.zest.toyproject.dto.request.BoardCreateRequest
 import com.zest.toyproject.dto.request.BoardUpdateRequest
 import com.zest.toyproject.dto.response.BoardResponse
+import com.zest.toyproject.dto.response.BoardWithPostsResponse
+import com.zest.toyproject.dto.response.PostResponse
 import com.zest.toyproject.models.Board
 import com.zest.toyproject.services.BoardService
 import io.swagger.annotations.Api
@@ -21,12 +23,18 @@ class BoardController(
 
     @ApiOperation(value = "게시판 조회")
     @GetMapping("/{boardId}")
-    fun getBoard(@PathVariable boardId: Long): BoardResponse {
-        return boardService.findById(boardId).let {
-            BoardResponse(
+    fun getBoard(@PathVariable boardId: Long): BoardWithPostsResponse {
+        return boardService.findWithPostsWithMemberById(boardId).let {
+            val posts = mutableListOf<PostResponse>()
+            for (post in it.posts) {
+                posts.add(PostResponse.of(post))
+            }
+
+            BoardWithPostsResponse(
                 id = it.id!!,
                 title = it.title,
                 description = it.description,
+                posts = posts
             )
         }
     }

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import java.security.PrivateKey
 import javax.transaction.Transactional
 
 @Transactional
@@ -130,5 +131,15 @@ class BoardServiceTest @Autowired constructor(
         assertThatThrownBy { boardService.findById(testBoard.id!!) }.isInstanceOf(
             BizException::class.java
         ).hasMessageContaining("존재하지 않는 게시판입니다.")
+    }
+
+    @Test
+    fun `게시판과 게시글들 조회 성공`() {
+
+        val findBoard = boardService.findWithPostsWithMemberById(1L)
+
+        assertThat(findBoard).isNotNull
+        assertThat(findBoard.posts).isNotEmpty
+
     }
 }

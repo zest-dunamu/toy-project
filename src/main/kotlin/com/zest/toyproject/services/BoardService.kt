@@ -15,6 +15,14 @@ class BoardService(
     fun findById(boardId: Long): Board =
         boardRepository.findById(boardId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시판입니다.") }
 
+    fun findWithPostsById(boardId: Long): Board =
+        boardRepository.findWithPostsWithMemberById(boardId)
+            .orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시판입니다.") }
+
+    fun findWithPostsWithMemberById(boardId: Long): Board =
+        boardRepository.findWithPostsWithMemberById(boardId)
+            .orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시판입니다.") }
+
     fun findByTitle(title: String): Board =
         boardRepository.findOneByTitle(title).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시판입니다.") }
 
