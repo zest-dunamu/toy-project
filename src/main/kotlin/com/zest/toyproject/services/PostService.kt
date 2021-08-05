@@ -18,6 +18,13 @@ class PostService(
     fun findById(postId: Long): Post =
         postRepository.findById(postId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시글입니다.") }
 
+    fun findWithMemberById(postId: Long): Post =
+        postRepository.findWithMemberById(postId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시글입니다.") }
+
+    fun findWithMemberWithCommentsById(postId: Long): Post =
+        postRepository.findWithMemberWithCommentsById(postId)
+            .orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시글입니다.") }
+
     fun createPost(postCreateRequest: PostCreateRequest): Post {
         val post = Post(
             title = postCreateRequest.title,

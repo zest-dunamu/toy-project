@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: local-mysql
+    active: test
   config:
     use-legacy-processing: true
   application:

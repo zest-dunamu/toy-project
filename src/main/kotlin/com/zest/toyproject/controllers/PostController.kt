@@ -2,8 +2,11 @@ package com.zest.toyproject.controllers
 
 import com.zest.toyproject.dto.request.PostCreateRequest
 import com.zest.toyproject.dto.request.PostUpdateRequest
+import com.zest.toyproject.dto.response.CommentResponse
 import com.zest.toyproject.dto.response.MemberResponse
 import com.zest.toyproject.dto.response.PostResponse
+import com.zest.toyproject.dto.response.PostWithCommentsResponse
+import com.zest.toyproject.models.Comment
 import com.zest.toyproject.services.MemberService
 import com.zest.toyproject.services.PostService
 import io.swagger.annotations.Api
@@ -23,14 +26,23 @@ class PostController(
 
     @ApiOperation(value = "게시글 조회")
     @GetMapping("/{postId}")
-    fun getPost(@PathVariable postId: Long): PostResponse {
-        return postService.findById(postId).let {
-            PostResponse(
+    fun getPost(@PathVariable postId: Long): PostWithCommentsResponse {
+        return postService.findWithMemberWithCommentsById(postId).let {
+            val comments: MutableList<CommentResponse> = mutableListOf()
+
+            for (comment in it.comments) {
+                comments.add(
+                    CommentResponse.of(comment)
+                )
+            }
+
+            PostWithCommentsResponse(
                 id = it.id!!,
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.of(it.member!!)
+                writer = MemberResponse.of(it.member!!),
+                comments = comments
             )
         }
     }

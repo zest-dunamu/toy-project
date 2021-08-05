@@ -129,11 +129,20 @@ class PostServiceTest @Autowired constructor(
     }
 
     @Test
-    fun `게시글 삭제 성공`(){
+    fun `게시글 삭제 성공`() {
         postService.deletePost(testPost)
 
         Assertions.assertThatThrownBy { postService.findById(testPost.id!!) }.isInstanceOf(
             BizException::class.java
         ).hasMessageContaining("존재하지 않는 게시글입니다.")
+    }
+
+    @Test
+    fun `게시글과 댓글들 조회 성공`() {
+        val findPost = postService.findWithMemberWithCommentsById(1L)
+
+        assertThat(findPost).isNotNull
+        assertThat(findPost.comments).isNotEmpty
+        assertThat(findPost.comments.first().content).isEqualTo("dummy")
     }
 }

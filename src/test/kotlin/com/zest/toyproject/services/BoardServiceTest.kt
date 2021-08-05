@@ -135,11 +135,10 @@ class BoardServiceTest @Autowired constructor(
 
     @Test
     fun `게시판과 게시글들 조회 성공`() {
-
         val findBoard = boardService.findWithPostsWithMemberById(1L)
 
         assertThat(findBoard).isNotNull
         assertThat(findBoard.posts).isNotEmpty
-
+        assertThat(findBoard.posts.first().title)
     }
 }

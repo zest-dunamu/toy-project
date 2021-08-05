@@ -25,7 +25,7 @@ class MemberServiceTest @Autowired constructor(
     @BeforeEach
     fun setup() {
         val member = Member(
-            username = "zest@dunamu.com",
+            username = "testMember@dunamu.com",
             password = "zestzest",
             nickname = "zest"
         )
@@ -51,7 +51,7 @@ class MemberServiceTest @Autowired constructor(
     @DisplayName("멤버의 username은 유일해야 한다. 멤버의 username은 중복 될 수 없다.")
     fun 회원가입_실패_아이디_중복() {
         var signUpMemberRequest: SignUpMemberRequest = SignUpMemberRequest(
-            username = "zest@dunamu.com",
+            username = "testMember@dunamu.com",
             password = "signUpTest",
             nickname = "signUp"
         )
@@ -64,7 +64,7 @@ class MemberServiceTest @Autowired constructor(
     @DisplayName("로그인")
     fun 로그인_성공() {
         val signInRequest: SignInMemberRequest = SignInMemberRequest(
-            username = "zest@dunamu.com",
+            username = "testMember@dunamu.com",
             password = "zestzest",
         )
 
