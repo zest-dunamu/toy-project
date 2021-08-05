@@ -34,12 +34,13 @@ class MemberController(
     @ApiOperation(value = "회원가입")
     @PostMapping
     fun signUp(@Valid @RequestBody memberInfo: SignUpMemberRequest): ResponseEntity<MemberResponse> {
-        return ResponseEntity.status(HttpStatus.CREATED).body(memberService.signUp(memberInfo))
-    }
-
-    @ApiOperation(value = "로그인")
-    @PostMapping("/signin")
-    fun signIn(@Valid @RequestBody signInMemberRequest: SignInMemberRequest): MemberResponse {
-        return memberService.signIn(signInMemberRequest)
+        val body = memberService.signUp(memberInfo).let {
+            MemberResponse(
+                id = it.id!!,
+                username = it.username,
+                nickname = it.nickname!!
+            )
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(body)
     }
 }

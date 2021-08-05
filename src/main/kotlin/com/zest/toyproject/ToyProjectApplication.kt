@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Profile
 class ToyProjectApplication {
     private val log = LoggerFactory.getLogger(ToyProjectApplication::class.java)
 
-    @Profile("local-mysql","local-h2")
+    @Profile("local-mysql", "local-h2")
     @Bean
     fun init(
         memberRepository: MemberRepository,
@@ -42,9 +42,7 @@ class ToyProjectApplication {
                 password = "dummydummy",
                 nickname = "dummy"
             )
-        ).let {
-            memberService.findById(it!!.id)
-        }
+        )
 
         //dummy board
         val dummyBoard = boardRepository.save(

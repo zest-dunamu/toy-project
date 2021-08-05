@@ -28,7 +28,7 @@ class MemberService(
     fun isExistUsername(username: String?): Boolean =
         memberRepository.existsByUsername(username)
 
-    fun signUp(signUpMemberRequest: SignUpMemberRequest): MemberResponse? {
+    fun signUp(signUpMemberRequest: SignUpMemberRequest): Member {
 
         if (isExistUsername(signUpMemberRequest.username))
             return throw BizException(Errors.CONFLICT, "이미 존재하는 아이디입니다.")
@@ -38,33 +38,9 @@ class MemberService(
             password = passwordEncoder.encode(signUpMemberRequest.password),
             nickname = signUpMemberRequest.nickname
         )
-        val createdMember: Member = memberRepository.save(member)
 
-        return createdMember.id?.let {
-            MemberResponse(
-                id = it,
-                username = createdMember.username,
-                nickname = createdMember.nickname!!
-            )
-        }
+        return memberRepository.save(member)
     }
-
-    fun signIn(signInMemberRequest: SignInMemberRequest): MemberResponse {
-        val member = findByUsername(signInMemberRequest.username)
-
-        if (!isCorrectPassword(member, signInMemberRequest.password)) {
-            throw BizException(Errors.WRONG_PASSWORD)
-        }
-
-        return MemberResponse(
-            id = member.id!!,
-            username = member.username,
-            nickname = member.nickname!!,
-        )
-    }
-
-    private fun isCorrectPassword(member: Member, password: String) =
-        member.password.equals(password)
 
     override fun loadUserByUsername(username: String): UserDetails {
         val member = findByUsername(username)

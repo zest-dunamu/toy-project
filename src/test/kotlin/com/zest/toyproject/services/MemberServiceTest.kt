@@ -33,8 +33,7 @@ class MemberServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("새로운 멤버를 등록한다")
-    fun 회원가입_성공() {
+    fun `회원가입 성공`() {
         var signUpMemberRequest: SignUpMemberRequest = SignUpMemberRequest(
             username = "test@dunamu.com",
             password = "signUpTest",
@@ -48,8 +47,7 @@ class MemberServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("멤버의 username은 유일해야 한다. 멤버의 username은 중복 될 수 없다.")
-    fun 회원가입_실패_아이디_중복() {
+    fun `회원가입 실패 아이디 중복`() {
         var signUpMemberRequest: SignUpMemberRequest = SignUpMemberRequest(
             username = "testMember@dunamu.com",
             password = "signUpTest",
@@ -61,22 +59,7 @@ class MemberServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("로그인")
-    fun 로그인_성공() {
-        val signInRequest: SignInMemberRequest = SignInMemberRequest(
-            username = "testMember@dunamu.com",
-            password = "zestzest",
-        )
-
-        val signInMember = memberService.signIn(signInRequest)
-
-        assertThat(signInMember).isNotNull
-        assertThat(signInMember.username).isEqualTo(signInRequest.username)
-    }
-
-    @Test
-    @DisplayName("멤버 조회")
-    fun 멤버조회_성공() {
+    fun `멤버 조회 성공`() {
 
         val findMember = testMember.id?.let { memberService.findById(it) }
 
