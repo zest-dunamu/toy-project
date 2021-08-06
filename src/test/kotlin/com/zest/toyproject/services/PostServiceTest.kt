@@ -176,4 +176,31 @@ class PostServiceTest @Autowired constructor(
             assertThat(post.title).contains("example")
         }
     }
+
+    @Test
+    fun `게시판의 게시글들 조회 + 페이지네이션 성공`() {
+        testPosts = mutableListOf()
+        for (i in 1..ENOUGH_DATA_NUM) {
+            testPosts.add(
+                Post(
+                    title = "example post $i",
+                    content = "this is example post $i",
+                    member = testMember,
+                    board = testBoard,
+                )
+            )
+        }
+        postRepository.saveAll(testPosts)
+
+        val findPosts =
+            postService.findAllByBoardPagination(testBoard, PageRequest.of(0, 20, Sort.by("createdAt").descending()))
+
+        assertThat(findPosts).isNotEmpty
+        assertThat(findPosts.size).isEqualTo(20)
+        for (post in findPosts) {
+            println("post.title = ${post.title}")
+            assertThat(post).isNotNull
+            assertThat(post.title).contains("example")
+        }
+    }
 }

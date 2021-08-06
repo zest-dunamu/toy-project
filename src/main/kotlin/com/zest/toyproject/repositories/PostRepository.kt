@@ -1,5 +1,6 @@
 package com.zest.toyproject.repositories
 
+import com.zest.toyproject.models.Board
 import com.zest.toyproject.models.Post
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -21,4 +22,7 @@ interface PostRepository : JpaRepository<Post, Long> {
 
     @EntityGraph(attributePaths = ["member"], type = EntityGraph.EntityGraphType.LOAD)
     fun findByTitleContains(title: String, pageable: Pageable): Page<Post>
+
+    @EntityGraph(attributePaths = ["member"], type = EntityGraph.EntityGraphType.LOAD)
+    fun findAllByBoard(board: Board, pageable: Pageable): Page<Post>
 }

@@ -7,6 +7,7 @@ import com.zest.toyproject.common.utils.LogUtil.Companion.log
 import com.zest.toyproject.models.Post
 import com.zest.toyproject.dto.request.PostCreateRequest
 import com.zest.toyproject.dto.request.PostUpdateRequest
+import com.zest.toyproject.models.Board
 import com.zest.toyproject.models.Member
 import com.zest.toyproject.repositories.PostRepository
 import org.springframework.data.domain.Pageable
@@ -56,6 +57,13 @@ class PostService(
     fun findByTitleLike(title: String, pageable: Pageable): List<Post> {
         log.info("pageable = $pageable")
         val pagingPost = postRepository.findByTitleContains(title, pageable)
+        log.info("pagingPost = $pagingPost")
+        return pagingPost.content
+    }
+
+    fun findAllByBoardPagination(board: Board, pageable: Pageable): List<Post> {
+        log.info("pageable = $pageable")
+        val pagingPost = postRepository.findAllByBoard(board, pageable)
         log.info("pagingPost = $pagingPost")
         return pagingPost.content
     }
