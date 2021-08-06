@@ -13,6 +13,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import javax.transaction.Transactional
 
 @Transactional
@@ -26,6 +28,9 @@ class PostServiceTest @Autowired constructor(
     private lateinit var testPost: Post
     private lateinit var testMember: Member
     private lateinit var testBoard: Board
+
+    private lateinit var testPosts: MutableList<Post>
+    private val ENOUGH_DATA_NUM = 100
 
     @BeforeEach
     fun setup() {
@@ -144,5 +149,31 @@ class PostServiceTest @Autowired constructor(
         assertThat(findPost).isNotNull
         assertThat(findPost.comments).isNotEmpty
         assertThat(findPost.comments.first().content).isEqualTo("dummy")
+    }
+
+    @Test
+    fun `게시글 제목 검색 + 페이지네이션 성공`() {
+        testPosts = mutableListOf()
+        for (i in 1..ENOUGH_DATA_NUM) {
+            testPosts.add(
+                Post(
+                    title = "example post $i",
+                    content = "this is example post $i",
+                    member = testMember,
+                    board = testBoard,
+                )
+            )
+        }
+        postRepository.saveAll(testPosts)
+
+        val findPosts = postService.findByTitleLike("example", PageRequest.of(1, 20, Sort.by("createdAt")))
+
+        assertThat(findPosts).isNotEmpty
+        assertThat(findPosts.size).isEqualTo(20)
+        for (post in findPosts) {
+            println("post.title = ${post.title}")
+            assertThat(post).isNotNull
+            assertThat(post.title).contains("example")
+        }
     }
 }

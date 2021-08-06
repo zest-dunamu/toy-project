@@ -7,10 +7,14 @@ import com.zest.toyproject.dto.response.MemberResponse
 import com.zest.toyproject.dto.response.PostResponse
 import com.zest.toyproject.dto.response.PostWithCommentsResponse
 import com.zest.toyproject.models.Comment
+import com.zest.toyproject.models.Post
 import com.zest.toyproject.services.MemberService
 import com.zest.toyproject.services.PostService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -95,5 +99,24 @@ class PostController(
     fun delete(@PathVariable postId: Long) {
         val post = postService.findById(postId)
         postService.deletePost(post)
+    }
+
+    @ApiOperation(value = "게시글 검색")
+    @GetMapping("/search")
+    fun searchPost(
+        @RequestParam(required = false) title: String?,
+        @RequestParam("page") page: Int,
+        @RequestParam("size") size: Int
+    ): MutableList<PostResponse> {
+        val posts =
+            postService.findByTitleLike(title!!, PageRequest.of(page - 1, size, Sort.by("createdAt").descending()))
+        val postResponses = mutableListOf<PostResponse>()
+
+        for (post in posts) {
+            postResponses.add(
+                PostResponse.of(post)
+            )
+        }
+        return postResponses
     }
 }
