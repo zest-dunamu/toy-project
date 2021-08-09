@@ -4,12 +4,16 @@
 
 ## Environment
 
-Java11, Kotlin, Spring boot, MySQL, h2, IntelliJ
+~~Java11~~ -> Java 14
+
+Kotlin, Spring boot, JPA, MySQL, h2, IntelliJ, Docker
 
 ### DB
 
 개발 환경
+
 - H2 DB
 
-운영 환경 
-- MySQL
+운영 환경
+
+- MySQL (Docker)
