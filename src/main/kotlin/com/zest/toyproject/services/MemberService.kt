@@ -42,6 +42,10 @@ class MemberService(
         return memberRepository.save(member)
     }
 
+    fun findByNickname(nickname: String): Member {
+        return memberRepository.findByNickname(nickname)
+    }
+
     override fun loadUserByUsername(username: String): UserDetails {
         val member = findByUsername(username)
         return User(

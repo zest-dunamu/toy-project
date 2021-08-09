@@ -2,13 +2,12 @@ package com.zest.toyproject.services
 
 import com.zest.toyproject.common.enums.Errors
 import com.zest.toyproject.common.exceptions.BizException
-import com.zest.toyproject.common.utils.LogUtil
 import com.zest.toyproject.common.utils.LogUtil.Companion.log
-import com.zest.toyproject.models.Post
 import com.zest.toyproject.dto.request.PostCreateRequest
 import com.zest.toyproject.dto.request.PostUpdateRequest
 import com.zest.toyproject.models.Board
 import com.zest.toyproject.models.Member
+import com.zest.toyproject.models.Post
 import com.zest.toyproject.repositories.PostRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -66,5 +65,9 @@ class PostService(
         val pagingPost = postRepository.findAllByBoard(board, pageable)
         log.info("pagingPost = $pagingPost")
         return pagingPost.content
+    }
+
+    fun searchPostByQueryDsl(title: String?, content: String?, pageable: Pageable): List<Post> {
+        return postRepository.searchPostByQueryDsl(title, content, pageable)
     }
 }

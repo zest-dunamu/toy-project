@@ -6,14 +6,11 @@ import com.zest.toyproject.dto.response.CommentResponse
 import com.zest.toyproject.dto.response.MemberResponse
 import com.zest.toyproject.dto.response.PostResponse
 import com.zest.toyproject.dto.response.PostWithCommentsResponse
-import com.zest.toyproject.models.Comment
-import com.zest.toyproject.models.Post
 import com.zest.toyproject.services.MemberService
 import com.zest.toyproject.services.PostService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -110,6 +107,26 @@ class PostController(
     ): MutableList<PostResponse> {
         val posts =
             postService.findByTitleLike(title!!, PageRequest.of(page - 1, size, Sort.by("createdAt").descending()))
+        val postResponses = mutableListOf<PostResponse>()
+
+        for (post in posts) {
+            postResponses.add(
+                PostResponse.of(post)
+            )
+        }
+        return postResponses
+    }
+
+    @ApiOperation(value = "게시글 검색")
+    @GetMapping("/search/query")
+    fun searchPostByQuery(
+        @RequestParam(required = false) title: String?,
+        @RequestParam(required = false) content: String?,
+        @RequestParam("page") page: Int,
+        @RequestParam("size") size: Int
+    ): MutableList<PostResponse> {
+        val posts =
+            postService.searchPostByQueryDsl(title, content, PageRequest.of(page - 1, size))
         val postResponses = mutableListOf<PostResponse>()
 
         for (post in posts) {

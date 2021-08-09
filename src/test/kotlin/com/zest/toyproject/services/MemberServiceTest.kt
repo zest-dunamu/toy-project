@@ -27,7 +27,7 @@ class MemberServiceTest @Autowired constructor(
         val member = Member(
             username = "testMember@dunamu.com",
             password = "zestzest",
-            nickname = "zest"
+            nickname = "nickname"
         )
         testMember = memberRepository.save(member)
     }
@@ -60,10 +60,17 @@ class MemberServiceTest @Autowired constructor(
 
     @Test
     fun `멤버 조회 성공`() {
-
         val findMember = testMember.id?.let { memberService.findById(it) }
 
         assertThat(findMember).isNotNull
         assertThat(findMember!!.username).isEqualTo(testMember.username)
+    }
+
+    @Test
+    fun `멤버 닉네임으로 조회 성공`() {
+        val findMember = testMember.id?.let { memberService.findByNickname("nickname") }
+
+        assertThat(findMember).isNotNull
+        assertThat(findMember!!.nickname).isEqualTo(testMember.nickname)
     }
 }

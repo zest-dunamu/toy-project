@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface PostRepository : JpaRepository<Post, Long> {
+interface PostRepository : JpaRepository<Post, Long>, PostRepositoryQL {
 
     @EntityGraph(attributePaths = ["member"], type = EntityGraph.EntityGraphType.LOAD)
     fun findWithMemberById(id: Long): Optional<Post>

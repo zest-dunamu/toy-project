@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface MemberRepository : JpaRepository<Member, Long> {
+interface MemberRepository : JpaRepository<Member, Long>, MemberRepositoryQL {
     fun findOneByUsername(username: String?): Optional<Member>
     fun existsByUsername(name: String?): Boolean
 }
