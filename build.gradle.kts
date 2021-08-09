@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("org.springframework.boot") version "2.5.3"
@@ -6,6 +7,7 @@ plugins {
     kotlin("jvm") version "1.5.21"
     kotlin("plugin.spring") version "1.5.21"
     kotlin("plugin.jpa") version "1.5.21"
+    kotlin("kapt") version "1.5.21"
 }
 
 apply {
@@ -46,6 +48,16 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
 
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3")
+
+    implementation("com.querydsl:querydsl-jpa")//1
+    kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa") // 2)
+
+    // 3)
+    sourceSets.main {
+        withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+            kotlin.srcDir("$buildDir/generated/source/kapt/main")
+        }
+    }
 
     implementation(group = "org.modelmapper", name = "modelmapper", version = "2.3.6")
 
