@@ -203,4 +203,35 @@ class PostServiceTest @Autowired constructor(
             assertThat(post.title).contains("example")
         }
     }
+
+    @Test
+    fun `게시글 내용 검색 + 페이지네이션 성공 - QueryDSL`() {
+        testPosts = mutableListOf()
+        for (i in 1..ENOUGH_DATA_NUM) {
+            testPosts.add(
+                Post(
+                    title = "example post $i",
+                    content = "this is example content post $i",
+                    member = testMember,
+                    board = testBoard,
+                )
+            )
+        }
+        postRepository.saveAll(testPosts)
+
+        val findPosts =
+            postService.searchPostByQueryDsl(
+                null,
+                "example content",
+                PageRequest.of(0, 20, Sort.by("createdAt").descending())
+            )
+
+        assertThat(findPosts).isNotEmpty
+        assertThat(findPosts.size).isEqualTo(20)
+        for (post in findPosts) {
+            println("post.content = ${post.content}")
+            assertThat(post).isNotNull
+            assertThat(post.content).contains("example content")
+        }
+    }
 }
