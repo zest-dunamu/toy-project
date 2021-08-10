@@ -2,9 +2,7 @@ package com.zest.toyproject.services
 
 import com.zest.toyproject.common.enums.Errors
 import com.zest.toyproject.common.exceptions.BizException
-import com.zest.toyproject.dto.request.SignInMemberRequest
 import com.zest.toyproject.dto.request.SignUpMemberRequest
-import com.zest.toyproject.dto.response.MemberResponse
 import com.zest.toyproject.models.Member
 import com.zest.toyproject.repositories.MemberRepository
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -29,33 +27,31 @@ class MemberService(
         memberRepository.existsByUsername(username)
 
     fun signUp(signUpMemberRequest: SignUpMemberRequest): Member {
-
         if (isExistUsername(signUpMemberRequest.username))
-            return throw BizException(Errors.CONFLICT, "이미 존재하는 아이디입니다.")
+            throw BizException(Errors.CONFLICT, "이미 존재하는 아이디입니다.")
 
-        val member = Member(
-            username = signUpMemberRequest.username,
-            password = passwordEncoder.encode(signUpMemberRequest.password),
-            nickname = signUpMemberRequest.nickname
+        return memberRepository.save(
+            Member(
+                username = signUpMemberRequest.username,
+                password = passwordEncoder.encode(signUpMemberRequest.password),
+                nickname = signUpMemberRequest.nickname
+            )
         )
-
-        return memberRepository.save(member)
     }
 
-    fun findByNickname(nickname: String): Member {
-        return memberRepository.findByNickname(nickname)
-    }
+    fun findByNickname(nickname: String): Member = memberRepository.findByNickname(nickname)
 
     override fun loadUserByUsername(username: String): UserDetails {
-        val member = findByUsername(username)
-        return User(
-            member.username,
-            member.password,
-            true,
-            true,
-            true,
-            true,
-            listOf(SimpleGrantedAuthority("ROLE_USER"))
-        )
+        return findByUsername(username).let {
+            User(
+                it.username,
+                it.password,
+                true,
+                true,
+                true,
+                true,
+                listOf(SimpleGrantedAuthority("ROLE_USER"))
+            )
+        }
     }
 }

@@ -1,8 +1,6 @@
 package com.zest.toyproject.controllers
 
-import com.zest.toyproject.models.Member
 import com.zest.toyproject.dto.request.SignUpMemberRequest
-import com.zest.toyproject.dto.request.SignInMemberRequest
 import com.zest.toyproject.dto.response.MemberResponse
 import com.zest.toyproject.services.MemberService
 import io.swagger.annotations.Api
@@ -22,13 +20,13 @@ class MemberController(
     @ApiOperation(value = "멤버 조회")
     @GetMapping("/{memberId}")
     fun getMember(@PathVariable memberId: Long): MemberResponse {
-        val member: Member = memberService.findById(memberId)
-
-        return MemberResponse(
-            id = member.id!!,
-            username = member.username,
-            nickname = member.nickname!!
-        )
+        return memberService.findById(memberId).let {
+            MemberResponse(
+                id = it.id!!,
+                username = it.username,
+                nickname = it.nickname!!
+            )
+        }
     }
 
     @ApiOperation(value = "회원가입")
