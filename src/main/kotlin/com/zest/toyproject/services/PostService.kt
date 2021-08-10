@@ -29,13 +29,14 @@ class PostService(
             .orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 게시글입니다.") }
 
     fun createPost(postCreateRequest: PostCreateRequest): Post {
-        val post = Post(
-            title = postCreateRequest.title,
-            content = postCreateRequest.content,
-            member = memberService.findById(postCreateRequest.memberId),
-            board = boardService.findById(postCreateRequest.boardId)
+        return postRepository.save(
+            Post(
+                title = postCreateRequest.title,
+                content = postCreateRequest.content,
+                member = memberService.findById(postCreateRequest.memberId),
+                board = boardService.findById(postCreateRequest.boardId)
+            )
         )
-        return postRepository.save(post)
     }
 
     fun updatePost(post: Post, member: Member, postUpdateRequest: PostUpdateRequest): Post {
@@ -67,7 +68,7 @@ class PostService(
         return pagingPost.content
     }
 
-    fun searchPostByQueryDsl(title: String?, content: String?, pageable: Pageable): List<Post> {
-        return postRepository.searchPostByQueryDsl(title, content, pageable)
-    }
+    fun searchPostByQueryDsl(title: String?, content: String?, pageable: Pageable): List<Post> =
+        postRepository.searchPostByQueryDsl(title, content, pageable)
+
 }

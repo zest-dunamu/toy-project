@@ -86,7 +86,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 likeCount = it.likeCount,
-                writer = MemberResponse.of(it.member!!)
+                writer = MemberResponse.of(it.member)
             )
         }
     }

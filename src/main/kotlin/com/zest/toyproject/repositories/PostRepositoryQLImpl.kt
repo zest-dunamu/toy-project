@@ -15,12 +15,11 @@ class PostRepositoryQLImpl(jpaQueryFactory: JPAQueryFactory) : QuerydslRepositor
     PostRepositoryQL {
     override fun searchPostByQueryDsl(title: String?, content: String?, pageable: Pageable): MutableList<Post> {
         val builder = from(post).leftJoin(post.member).fetchJoin()
+
         if (title != null) {
             builder.where(post.title.contains(title))
         }
-        println("content = ${content}")
         if (content != null) {
-            println("content = ${content}")
             builder.where(post.content.contains(content))
         }
 

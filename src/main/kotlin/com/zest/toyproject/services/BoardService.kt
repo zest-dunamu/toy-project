@@ -31,18 +31,18 @@ class BoardService(
 
     fun createBoard(boardCreateRequest: BoardCreateRequest): Board {
         boardDuplicateCheck(boardCreateRequest.title)
-
-        val board = Board(
-            title = boardCreateRequest.title,
-            description = boardCreateRequest.description
+        return boardRepository.save(
+            Board(
+                title = boardCreateRequest.title,
+                description = boardCreateRequest.description
+            )
         )
-        return boardRepository.save(board)
     }
 
     fun updateBoard(board: Board, boardUpdateRequest: BoardUpdateRequest): Board {
         board.title = boardUpdateRequest.title?.let {
             boardDuplicateCheck(it)
-            boardUpdateRequest.title
+            it
         } ?: board.title
 
         board.description = boardUpdateRequest.description ?: board.description
@@ -57,6 +57,6 @@ class BoardService(
 
     private fun boardDuplicateCheck(title: String) {
         if (isExistTitle(title))
-            return throw BizException(Errors.CONFLICT, "이미 존재하는 게시판 제목 입니다.")
+            throw BizException(Errors.CONFLICT, "이미 존재하는 게시판 제목 입니다.")
     }
 }
