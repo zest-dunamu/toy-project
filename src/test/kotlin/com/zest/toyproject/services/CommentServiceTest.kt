@@ -88,7 +88,7 @@ class CommentServiceTest @Autowired constructor(
         )
 
         assertThat(changeComment).isNotNull
-        assertThat(changeComment!!.id).isEqualTo(originComment!!.id)
+        assertThat(changeComment.id).isEqualTo(originComment.id)
         assertThat(changeComment.content).isEqualTo("change content")
     }
 

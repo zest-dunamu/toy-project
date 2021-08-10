@@ -58,7 +58,7 @@ class CommentController(
         val comment = commentService.findById(commentId)
         val member = memberService.findById(memberId)
 
-        return commentService.updateComment(comment, member,commentUpdateRequest).let {
+        return commentService.updateComment(comment, member, commentUpdateRequest).let {
             CommentResponse(
                 id = it.id!!,
                 content = it.content,

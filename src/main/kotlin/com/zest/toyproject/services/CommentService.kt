@@ -19,13 +19,14 @@ class CommentService(
         commentRepository.findById(commentId).orElseThrow { BizException(Errors.NOT_FOUND, "존재하지 않는 댓글입니다.") }
 
     fun createComment(commentCreateRequest: CommentCreateRequest): Comment {
-        val comment = Comment(
-            content = commentCreateRequest.content,
-            member = memberService.findById(commentCreateRequest.memberId),
-            post = postService.findById(commentCreateRequest.postId),
-            likeCount = 0
+        return commentRepository.save(
+            Comment(
+                content = commentCreateRequest.content,
+                member = memberService.findById(commentCreateRequest.memberId),
+                post = postService.findById(commentCreateRequest.postId),
+                likeCount = 0
+            )
         )
-        return commentRepository.save(comment)
     }
 
     fun updateComment(comment: Comment, member: Member, commentUpdateRequest: CommentUpdateRequest): Comment {
