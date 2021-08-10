@@ -1,6 +1,7 @@
 package com.zest.toyproject.services
 
 import com.zest.toyproject.AbstractIntegrationTest
+import com.zest.toyproject.common.enums.Errors
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.configs.security.JwtTokenProvider
 import com.zest.toyproject.models.Member
@@ -53,13 +54,13 @@ class AuthenticationServiceTest @Autowired constructor(
     fun `로그인 실패 비밀번호 틀림`() {
         assertThatThrownBy { authenticationService.login("test@dunamu.com", "sign") }.isInstanceOf(
             BizException::class.java
-        ).hasMessageContaining("잘못된 비밀번호입니다.")
+        ).hasMessageContaining(Errors.WRONG_PASSWORD.value)
     }
 
     @Test
     fun `로그인 실패 아이디 틀림`() {
         assertThatThrownBy { authenticationService.login("te@dunamu.com", "signUpTest") }.isInstanceOf(
             BizException::class.java
-        ).hasMessageContaining("아이디가 존재하지 않거나 틀렸습니다.")
+        ).hasMessageContaining(Errors.WRONG_USERNAME.value)
     }
 }

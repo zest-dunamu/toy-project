@@ -19,10 +19,10 @@ class AuthenticationService(
 ) {
     fun login(username: String, password: String): LoginResponse {
         val member: Member = memberRepository.findOneByUsername(username)
-            .orElseThrow { BizException(Errors.WRONG_USERNAME, "아이디가 존재하지 않거나 틀렸습니다.") }
+            .orElseThrow { BizException(Errors.WRONG_USERNAME) }
 
         if (!isMatchPassword(password, member.password)) {
-            throw BizException(Errors.WRONG_PASSWORD, "잘못된 비밀번호입니다.")
+            throw BizException(Errors.WRONG_PASSWORD)
         }
         val token: String = jwtTokenProvider.createJwtToken(member.username, listOf("USER"))
         log.info("token : $token")
