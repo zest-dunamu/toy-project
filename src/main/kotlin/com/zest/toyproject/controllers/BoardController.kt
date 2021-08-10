@@ -34,7 +34,7 @@ class BoardController(
     ): BoardWithPostsResponse {
         val board = boardService.findById(boardId)
 
-        return postService.findAllByBoardPagination(board, PageRequest.of(page, size)).let {
+        return postService.findAllByBoardPagination(board, PageRequest.of(page - 1, size)).let {
             val posts = mutableListOf<PostResponse>()
             for (post in it) {
                 posts.add(PostResponse.of(post))
