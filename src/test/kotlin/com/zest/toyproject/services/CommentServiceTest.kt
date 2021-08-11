@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
 import javax.transaction.Transactional
 
 @Transactional
@@ -99,5 +100,17 @@ class CommentServiceTest @Autowired constructor(
         Assertions.assertThatThrownBy { commentService.findById(testComment.id!!) }.isInstanceOf(
             BizException::class.java
         ).hasMessageContaining("존재하지 않는 댓글입니다.")
+    }
+
+    @Test
+    fun `임의의 게시판의 게시글들 가져오기 -페이지네이션`() {
+        val comments = commentService.findAllByPostPagination(testPost, PageRequest.of(0, 2))
+
+        for (comment in comments) {
+            println("comment.content = ${comment.content}")
+        }
+
+        assertThat(comments).isNotNull
+        assertThat(comments.size).isEqualTo(2)
     }
 }
