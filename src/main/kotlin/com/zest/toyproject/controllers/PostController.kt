@@ -6,6 +6,7 @@ import com.zest.toyproject.dto.response.CommentResponse
 import com.zest.toyproject.dto.response.MemberResponse
 import com.zest.toyproject.dto.response.PostResponse
 import com.zest.toyproject.dto.response.PostWithCommentsResponse
+import com.zest.toyproject.services.CommentService
 import com.zest.toyproject.services.MemberService
 import com.zest.toyproject.services.PostService
 import io.swagger.annotations.Api
@@ -22,27 +23,33 @@ import javax.validation.Valid
 @RequestMapping("/api/posts")
 class PostController(
     private val postService: PostService,
-    private val memberService: MemberService
+    private val memberService: MemberService,
+    private val commentService: CommentService,
 ) {
 
     @ApiOperation(value = "게시글 조회")
     @GetMapping("/{postId}")
-    fun getPost(@PathVariable postId: Long): PostWithCommentsResponse {
-        return postService.findWithMemberWithCommentsById(postId).let {
+    fun getPost(
+        @PathVariable postId: Long, @RequestParam("page") page: Int,
+        @RequestParam("size") size: Int
+    ): PostWithCommentsResponse {
+        val post = postService.findById(postId)
+
+        return commentService.findAllByPostPagination(post, PageRequest.of(page - 1, size)).let {
             val comments: MutableList<CommentResponse> = mutableListOf()
 
-            for (comment in it.comments) {
+            for (comment in it) {
                 comments.add(
                     CommentResponse.of(comment)
                 )
             }
 
             PostWithCommentsResponse(
-                id = it.id!!,
-                title = it.title,
-                content = it.content,
-                likeCount = it.likeCount,
-                writer = MemberResponse.of(it.member!!),
+                id = post.id!!,
+                title = post.title,
+                content = post.content,
+                likeCount = post.likeCount,
+                writer = MemberResponse.of(post.member!!),
                 comments = comments
             )
         }
