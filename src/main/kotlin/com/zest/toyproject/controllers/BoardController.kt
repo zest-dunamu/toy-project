@@ -12,6 +12,7 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiModelProperty
 import io.swagger.annotations.ApiOperation
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -34,7 +35,10 @@ class BoardController(
     ): BoardWithPostsResponse {
         val board = boardService.findById(boardId)
 
-        return postService.findAllByBoardPagination(board, PageRequest.of(page - 1, size)).let {
+        return postService.findAllByBoardPagination(
+            board,
+            PageRequest.of(page - 1, size, Sort.by("createdAt").descending())
+        ).let {
             val posts = mutableListOf<PostResponse>()
             for (post in it) {
                 posts.add(PostResponse.of(post))

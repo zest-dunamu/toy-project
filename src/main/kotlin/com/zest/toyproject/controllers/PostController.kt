@@ -2,10 +2,8 @@ package com.zest.toyproject.controllers
 
 import com.zest.toyproject.dto.request.PostCreateRequest
 import com.zest.toyproject.dto.request.PostUpdateRequest
-import com.zest.toyproject.dto.response.CommentResponse
-import com.zest.toyproject.dto.response.MemberResponse
-import com.zest.toyproject.dto.response.PostResponse
-import com.zest.toyproject.dto.response.PostWithCommentsResponse
+import com.zest.toyproject.dto.response.*
+import com.zest.toyproject.services.BoardService
 import com.zest.toyproject.services.CommentService
 import com.zest.toyproject.services.MemberService
 import com.zest.toyproject.services.PostService
@@ -25,6 +23,7 @@ class PostController(
     private val postService: PostService,
     private val memberService: MemberService,
     private val commentService: CommentService,
+    private val boardService: BoardService,
 ) {
 
     @ApiOperation(value = "게시글 조회")
@@ -142,5 +141,25 @@ class PostController(
             )
         }
         return postResponses
+    }
+
+    @ApiOperation(value = "게시판에 해당하는 게시글들 조회 + 페이징")
+    @GetMapping
+    fun getPostsByBoard(
+        @RequestParam("boardId") boardId: Long, @RequestParam("page") page: Int,
+        @RequestParam("size") size: Int
+    ): PostResponses {
+        val board = boardService.findById(boardId)
+        val postList = postService.findAllByBoardPagination(
+            board,
+            PageRequest.of(page - 1, size, Sort.by("createdAt").descending())
+        )
+        val posts = mutableListOf<PostResponse>()
+
+        for (post in postList) {
+            posts.add(PostResponse.of(post))
+        }
+
+        return PostResponses(posts)
     }
 }
