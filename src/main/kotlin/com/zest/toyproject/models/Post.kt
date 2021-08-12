@@ -28,6 +28,6 @@ class Post(
     var comments: MutableList<Comment> = mutableListOf(),
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL])
-    @BatchSize(size = 100)
+    @BatchSize(size = 500)
     var likes: MutableSet<PostLike> = mutableSetOf(),
 ) : BaseEntity()
