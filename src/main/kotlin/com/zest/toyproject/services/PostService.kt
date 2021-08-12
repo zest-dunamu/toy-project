@@ -71,4 +71,8 @@ class PostService(
     fun searchPostByQueryDsl(title: String?, content: String?, pageable: Pageable): List<Post> =
         postRepository.searchPostByQueryDsl(title, content, pageable)
 
+    fun upViews(post: Post) {
+        post.views++
+        postRepository.save(post)
+    }
 }

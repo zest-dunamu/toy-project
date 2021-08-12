@@ -23,7 +23,7 @@ class PostController(
     private val postService: PostService,
     private val memberService: MemberService,
     private val commentService: CommentService,
-    private val boardService: BoardService,
+    private val boardService: BoardService
 ) {
 
     @ApiOperation(value = "게시글 조회")
@@ -33,6 +33,7 @@ class PostController(
         @RequestParam("size") size: Int
     ): PostWithCommentsResponse {
         val post = postService.findById(postId)
+        postService.upViews(post)
 
         return commentService.findAllByPostPagination(post, PageRequest.of(page - 1, size)).let {
             val comments: MutableList<CommentResponse> = mutableListOf()
@@ -47,6 +48,7 @@ class PostController(
                 id = post.id!!,
                 title = post.title,
                 content = post.content,
+                views = post.views,
                 likeCount = post.likeCount,
                 writer = MemberResponse.of(post.member!!),
                 comments = comments
@@ -62,6 +64,7 @@ class PostController(
                 id = it.id!!,
                 title = it.title,
                 content = it.content,
+                views = it.views,
                 likeCount = it.likeCount,
                 writer = MemberResponse.of(it.member!!)
             )
@@ -91,6 +94,7 @@ class PostController(
                 id = it.id!!,
                 title = it.title,
                 content = it.content,
+                views = it.views,
                 likeCount = it.likeCount,
                 writer = MemberResponse.of(it.member)
             )

@@ -1,6 +1,7 @@
 package com.zest.toyproject.models
 
 import com.zest.toyproject.common.entities.BaseEntity
+import org.hibernate.annotations.BatchSize
 import javax.persistence.*
 
 @Entity
@@ -13,6 +14,8 @@ class Post(
 
     var likeCount: Int = 0,
 
+    var views: Int = 0,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     var member: Member,
@@ -23,4 +26,8 @@ class Post(
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL])
     var comments: MutableList<Comment> = mutableListOf(),
+
+    @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL])
+    @BatchSize(size = 100)
+    var likes: MutableSet<PostLike> = mutableSetOf(),
 ) : BaseEntity()
