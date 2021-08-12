@@ -10,6 +10,7 @@ import com.zest.toyproject.models.Member
 import com.zest.toyproject.models.Post
 import com.zest.toyproject.repositories.PostRepository
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.stereotype.Service
 
 @Service
@@ -75,4 +76,10 @@ class PostService(
         post.views++
         postRepository.save(post)
     }
+
+    fun findAllByBoardOrderByViewsDesc(board: Board, pageable: Pageable): List<Post> =
+        postRepository.findAllByBoardOrderByViewsDesc(board, pageable)
+
+    fun findAllByBoardOrderByLikes(board: Board, pageable: Pageable): List<Post> =
+        postRepository.findAllByBoardOrderByLikes(board, pageable)
 }

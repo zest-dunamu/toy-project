@@ -95,7 +95,7 @@ class PostController(
                 title = it.title,
                 content = it.content,
                 views = it.views,
-                likeCount = it.likeCount,
+                likeCount = it.likes.size,
                 writer = MemberResponse.of(it.member)
             )
         }
@@ -114,17 +114,10 @@ class PostController(
         @RequestParam(required = false) title: String?,
         @RequestParam("page") page: Int,
         @RequestParam("size") size: Int
-    ): MutableList<PostResponse> {
+    ): PostResponses {
         val posts =
             postService.findByTitleLike(title!!, PageRequest.of(page - 1, size, Sort.by("createdAt").descending()))
-        val postResponses = mutableListOf<PostResponse>()
-
-        for (post in posts) {
-            postResponses.add(
-                PostResponse.of(post)
-            )
-        }
-        return postResponses
+        return PostResponses.of(posts)
     }
 
     @ApiOperation(value = "게시글 검색")
@@ -134,17 +127,11 @@ class PostController(
         @RequestParam(required = false) content: String?,
         @RequestParam("page") page: Int,
         @RequestParam("size") size: Int
-    ): MutableList<PostResponse> {
+    ): PostResponses {
         val posts =
             postService.searchPostByQueryDsl(title, content, PageRequest.of(page - 1, size))
-        val postResponses = mutableListOf<PostResponse>()
 
-        for (post in posts) {
-            postResponses.add(
-                PostResponse.of(post)
-            )
-        }
-        return postResponses
+        return PostResponses.of(posts)
     }
 
     @ApiOperation(value = "게시판에 해당하는 게시글들 조회 + 페이징")
@@ -154,16 +141,41 @@ class PostController(
         @RequestParam("size") size: Int
     ): PostResponses {
         val board = boardService.findById(boardId)
-        val postList = postService.findAllByBoardPagination(
+        val posts = postService.findAllByBoardPagination(
             board,
             PageRequest.of(page - 1, size, Sort.by("createdAt").descending())
         )
-        val posts = mutableListOf<PostResponse>()
 
-        for (post in postList) {
-            posts.add(PostResponse.of(post))
-        }
+        return PostResponses.of(posts)
+    }
 
-        return PostResponses(posts)
+    @ApiOperation(value = "게시판에 대해 조회수 순서대로 인기글 조회")
+    @GetMapping("/views")
+    fun findAllByBoardOrderByViews(
+        @RequestParam("boardId") boardId: Long,
+        @RequestParam("page") page: Int,
+        @RequestParam("size") size: Int,
+    ): PostResponses {
+        val board = boardService.findById(boardId)
+        val posts = postService.findAllByBoardOrderByViewsDesc(
+            board, PageRequest.of(page - 1, size)
+        )
+
+        return PostResponses.of(posts)
+    }
+
+    @ApiOperation(value = "게시판에 대해 좋아요 순서대로 추천글 조회")
+    @GetMapping("/popular")
+    fun findAllByBoardOrderByLikes(
+        @RequestParam("boardId") boardId: Long,
+        @RequestParam("page") page: Int,
+        @RequestParam("size") size: Int,
+    ): PostResponses {
+        val board = boardService.findById(boardId)
+        val posts = postService.findAllByBoardOrderByLikes(
+            board, PageRequest.of(page, size)
+        )
+
+        return PostResponses.of(posts)
     }
 }

@@ -15,7 +15,10 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
 import javax.transaction.Transactional
+import kotlin.concurrent.thread
 
 @Transactional
 class PostServiceTest @Autowired constructor(

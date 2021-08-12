@@ -25,4 +25,8 @@ interface PostRepository : JpaRepository<Post, Long>, PostRepositoryQL {
 
     @EntityGraph(attributePaths = ["member"], type = EntityGraph.EntityGraphType.LOAD)
     fun findAllByBoard(board: Board, pageable: Pageable): Page<Post>
+
+    fun findAllByBoardOrderByViewsDesc(board: Board, pageable: Pageable): List<Post>
+
+    fun findTop5ByBoardOrderByLikes(board: Board): List<Post>
 }

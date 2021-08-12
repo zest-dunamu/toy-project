@@ -17,7 +17,7 @@ data class PostResponse(
                 title = post.title,
                 content = post.content,
                 views = post.views,
-                likeCount = post.likeCount,
+                likeCount = post.likes.size,
                 writer = MemberResponse.of(post.member)
             )
         }

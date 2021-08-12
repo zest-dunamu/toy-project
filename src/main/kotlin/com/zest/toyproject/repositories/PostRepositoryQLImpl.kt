@@ -1,13 +1,8 @@
 package com.zest.toyproject.repositories
 
 import com.querydsl.jpa.impl.JPAQueryFactory
-import com.zest.toyproject.common.enums.Errors
-import com.zest.toyproject.common.exceptions.BizException
-import com.zest.toyproject.models.Member
-import com.zest.toyproject.models.Post
-import com.zest.toyproject.models.QMember
+import com.zest.toyproject.models.*
 import com.zest.toyproject.models.QPost.post
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
@@ -26,6 +21,13 @@ class PostRepositoryQLImpl(jpaQueryFactory: JPAQueryFactory) : QuerydslRepositor
         builder.offset(pageable.offset).limit(pageable.pageSize.toLong())
         builder.orderBy(post.createdAt.desc())
 
+        return builder.fetch()
+    }
+
+    override fun findAllByBoardOrderByLikes(board: Board, pageable: Pageable): MutableList<Post> {
+        val builder = from(post).leftJoin(post.member).fetchJoin()
+            .where(post.board.eq(board))
+        builder.orderBy(post.likes.size().desc()).offset(pageable.offset).limit(pageable.pageSize.toLong())
         return builder.fetch()
     }
 }
