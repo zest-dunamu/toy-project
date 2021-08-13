@@ -12,6 +12,7 @@ class Post(
 
     var content: String? = null,
 
+    @Transient
     var likeCount: Int = 0,
 
     var views: Int = 0,

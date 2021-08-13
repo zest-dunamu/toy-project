@@ -9,6 +9,7 @@ class Comment(
 
     var content: String? = null,
 
+    @Transient
     var likeCount: Int = 0,
 
     @ManyToOne(fetch = FetchType.LAZY)
