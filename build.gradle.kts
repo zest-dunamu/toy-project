@@ -61,6 +61,8 @@ dependencies {
 
     implementation(group = "org.modelmapper", name = "modelmapper", version = "2.3.6")
 
+//    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1")
+
     runtimeOnly("mysql:mysql-connector-java")
     runtimeOnly("com.h2database:h2")
     compileOnly("org.projectlombok:lombok")

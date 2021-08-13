@@ -1,7 +1,9 @@
 package com.zest.toyproject.configs.security
 
+import com.zest.toyproject.common.enums.Role
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -39,7 +41,9 @@ class WebSecurity(
                 "/swagger-ui/**"
             ).permitAll()
             .antMatchers("/auth/**").permitAll()//로그인
-            .antMatchers("/api/health").hasAnyRole("USER")
+            .antMatchers(HttpMethod.POST, "/api/boards").hasAnyRole(Role.ADMIN.name)
+            .antMatchers(HttpMethod.PUT, "/api/boards/**").hasAnyRole(Role.ADMIN.name)
+            .antMatchers("/api/health").hasAnyRole(Role.USER.name)
             .antMatchers("/api/members").permitAll() //회원가입
             .anyRequest().authenticated() // 그외 나머지 요청은 인증 받아야함
             .and()

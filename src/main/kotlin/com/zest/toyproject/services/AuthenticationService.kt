@@ -24,7 +24,7 @@ class AuthenticationService(
         if (!isMatchPassword(password, member.password)) {
             throw BizException(Errors.WRONG_PASSWORD)
         }
-        val token: String = jwtTokenProvider.createJwtToken(member.username, listOf("USER"))
+        val token: String = jwtTokenProvider.createJwtToken(member.username, listOf(member.role.name))
         log.info("token : $token")
         return LoginResponse(member.id!!, token)
     }

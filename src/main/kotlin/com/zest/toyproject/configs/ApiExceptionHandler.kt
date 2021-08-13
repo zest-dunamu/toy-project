@@ -45,6 +45,13 @@ class ApiExceptionHandler {
         return errors
     }
 
+    @ExceptionHandler(NoSuchElementException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleNoSuchElementException(ex: NoSuchElementException): ResponseEntity<ExceptionDto> {
+        val exception = ExceptionDto(HttpStatus.BAD_REQUEST, ex.message)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception)
+    }
+
     @ExceptionHandler(BizException::class)
     fun handleBizException(ex: BizException): ResponseEntity<ExceptionDto> {
         val exception = ExceptionDto(ex.resultCode.code, ex.exactMessage)

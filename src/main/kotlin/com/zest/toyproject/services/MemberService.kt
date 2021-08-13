@@ -3,6 +3,7 @@ package com.zest.toyproject.services
 import com.zest.toyproject.common.enums.Errors
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.dto.request.SignUpMemberRequest
+import com.zest.toyproject.models.AuthenticatedMember
 import com.zest.toyproject.models.Member
 import com.zest.toyproject.repositories.MemberRepository
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -43,14 +44,11 @@ class MemberService(
 
     override fun loadUserByUsername(username: String): UserDetails {
         return findByUsername(username).let {
-            User(
+            AuthenticatedMember(
+                it.id!!,
                 it.username,
                 it.password,
-                true,
-                true,
-                true,
-                true,
-                listOf(SimpleGrantedAuthority("ROLE_USER"))
+                listOf(SimpleGrantedAuthority(it.role.getRoleName()))
             )
         }
     }
