@@ -1,6 +1,7 @@
 package com.zest.toyproject.services
 
 import com.zest.toyproject.common.enums.Errors
+import com.zest.toyproject.common.enums.Role
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.common.utils.LogUtil
 import com.zest.toyproject.common.utils.LogUtil.Companion.log
@@ -31,5 +32,10 @@ class AuthenticationService(
 
     private fun isMatchPassword(password: String, memberEncryptedPassword: String): Boolean {
         return passwordEncoder.matches(password, memberEncryptedPassword)
+    }
+
+    fun grantRole(member: Member, role: Role) {
+        member.role = role
+        memberRepository.save(member)
     }
 }

@@ -2,6 +2,7 @@ package com.zest.toyproject.services
 
 import com.zest.toyproject.AbstractIntegrationTest
 import com.zest.toyproject.common.enums.Errors
+import com.zest.toyproject.common.enums.Role
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.configs.security.JwtTokenProvider
 import com.zest.toyproject.models.Member
@@ -62,5 +63,14 @@ class AuthenticationServiceTest @Autowired constructor(
         assertThatThrownBy { authenticationService.login("te@dunamu.com", "signUpTest") }.isInstanceOf(
             BizException::class.java
         ).hasMessageContaining(Errors.WRONG_USERNAME.value)
+    }
+
+    @Test
+    fun `ROLE 부여`() {
+        authenticationService.grantRole(testMember, Role.ADMIN)
+        val adminMember = memberService.findById(testMember.id!!)
+
+        assertThat(adminMember.id).isEqualTo(testMember.id)
+        assertThat(adminMember.role).isEqualTo(Role.ADMIN)
     }
 }

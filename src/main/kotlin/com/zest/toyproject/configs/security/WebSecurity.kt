@@ -40,8 +40,9 @@ class WebSecurity(
                 "/webjars/**",
                 "/swagger-ui/**"
             ).permitAll()
-            .antMatchers("/auth/**").permitAll()//로그인
-            .antMatchers(HttpMethod.POST, "/api/boards").hasAnyRole(Role.ADMIN.name)
+            .antMatchers(HttpMethod.POST, "/auth/grant").hasAnyRole(Role.ADMIN.name)
+            .antMatchers("/auth/login").permitAll()//로그인
+            .antMatchers(HttpMethod.POST, "/api/boards", "/auth/grant").hasAnyRole(Role.ADMIN.name)
             .antMatchers(HttpMethod.PUT, "/api/boards/**").hasAnyRole(Role.ADMIN.name)
             .antMatchers("/api/health").hasAnyRole(Role.USER.name)
             .antMatchers("/api/members").permitAll() //회원가입
