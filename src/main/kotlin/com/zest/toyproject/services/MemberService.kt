@@ -41,7 +41,10 @@ class MemberService(
         )
     }
 
-    fun findByNickname(nickname: String): Member = memberRepository.findByNickname(nickname)
+    fun findByNickname(nickname: String): Member? = memberRepository.findByNickname(nickname) ?: throw BizException(
+        Errors.NOT_FOUND,
+        "존재하지 않는 멤버입니다."
+    )
 
     override fun loadUserByUsername(username: String): UserDetails {
         return findByUsername(username).let {

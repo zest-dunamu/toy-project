@@ -9,11 +9,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class MemberRepositoryQLImpl(jpaQueryFactory: JPAQueryFactory) : QuerydslRepositorySupport(Member::class.java),
     MemberRepositoryQL {
-    override fun findByNickname(nickname: String): Member {
+    override fun findByNickname(nickname: String): Member? {
         val member = QMember.member
-        return from(member).where(member.nickname.eq(nickname)).fetchOne() ?: throw BizException(
-            Errors.NOT_FOUND,
-            "존재하지 않는 멤버입니다."
-        )
+        return from(member).where(member.nickname.eq(nickname)).fetchOne()
     }
 }
