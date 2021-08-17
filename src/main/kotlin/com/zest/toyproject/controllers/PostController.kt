@@ -48,7 +48,7 @@ class PostController(
                 id = post.id!!,
                 title = post.title,
                 content = post.content,
-                views = post.views,
+                viewCount = post.viewCount,
                 likeCount = post.likeCount,
                 writer = MemberResponse.of(post.member!!),
                 comments = comments
@@ -64,7 +64,7 @@ class PostController(
                 id = it.id!!,
                 title = it.title,
                 content = it.content,
-                views = it.views,
+                viewCount = it.viewCount,
                 likeCount = it.likeCount,
                 writer = MemberResponse.of(it.member!!)
             )
@@ -94,7 +94,7 @@ class PostController(
                 id = it.id!!,
                 title = it.title,
                 content = it.content,
-                views = it.views,
+                viewCount = it.viewCount,
                 likeCount = it.likes.size,
                 writer = MemberResponse.of(it.member)
             )

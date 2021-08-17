@@ -12,15 +12,17 @@ spring:
   jpa:
     properties:
       hibernate:
-#        show_sql: true
-        format_sql: true
-        use_sql_comments: false
+        show_sql: true
+#        format_sql: true
+#        use_sql_comments: false
 token:
   expiration-time: 3600000
   secret-key: zest-key
-logging:
-  level:
-    org.hibernate.SQL: debug
+#logging:
+#  level:
+#    org.hibernate.SQL: debug
+#    org.hibernate.type: trace
+
 
 ---
 spring:
@@ -49,7 +51,7 @@ spring:
     password: zest
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
 
 ---
 spring:

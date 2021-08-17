@@ -15,7 +15,7 @@ class Post(
     @Transient
     var likeCount: Int = 0,
 
-    var views: Int = 0,
+    var viewCount: Int = 0,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

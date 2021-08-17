@@ -15,10 +15,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.Executors
 import javax.transaction.Transactional
-import kotlin.concurrent.thread
 
 @Transactional
 class PostServiceTest @Autowired constructor(
@@ -235,6 +232,36 @@ class PostServiceTest @Autowired constructor(
             println("post.content = ${post.content}")
             assertThat(post).isNotNull
             assertThat(post.content).contains("example content")
+        }
+    }
+
+    @Test
+    fun `임의의 게시판에 대해 조회 수 순으로 인기글들 조회`() {
+        testPosts = mutableListOf()
+        for (i in 1..ENOUGH_DATA_NUM) {
+            testPosts.add(
+                Post(
+                    title = "example post $i",
+                    content = "this is example content post $i",
+                    member = testMember,
+                    board = testBoard,
+                    viewCount = ENOUGH_DATA_NUM - i
+                )
+            )
+        }
+        postRepository.saveAll(testPosts)
+
+        val findPosts =
+            postService.findAllByBoardOrderByViewsDesc(
+                testBoard,
+                PageRequest.of(0, 20)
+            )
+        assertThat(findPosts).isNotEmpty
+        assertThat(findPosts.size).isEqualTo(20)
+        for (i in findPosts.indices) {
+            assertThat(findPosts[i]).isNotNull
+            if (i == 0) continue
+            assertThat(findPosts[i].viewCount).isLessThanOrEqualTo(findPosts[i - 1].viewCount)
         }
     }
 }

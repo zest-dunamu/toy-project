@@ -1,6 +1,7 @@
 package com.zest.toyproject.services
 
 import com.zest.toyproject.common.enums.Errors
+import com.zest.toyproject.common.enums.Role
 import com.zest.toyproject.common.exceptions.BizException
 import com.zest.toyproject.dto.request.SignUpMemberRequest
 import com.zest.toyproject.models.AuthenticatedMember
