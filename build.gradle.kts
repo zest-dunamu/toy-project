@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 plugins {
     id("org.springframework.boot") version "2.5.3"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.jlleitschuh.gradle.ktlint") version "9.1.0"
     kotlin("jvm") version "1.5.21"
     kotlin("plugin.spring") version "1.5.21"
     kotlin("plugin.jpa") version "1.5.21"
@@ -31,6 +32,7 @@ allOpen {
 }
 repositories {
     mavenCentral()
+    maven(url = "https://plugins.gradle.org/m2/")
 }
 
 dependencies {
@@ -60,6 +62,10 @@ dependencies {
     }
 
     implementation(group = "org.modelmapper", name = "modelmapper", version = "2.3.6")
+
+    // https://mvnrepository.com/artifact/org.jlleitschuh.gradle/ktlint-gradle
+    implementation("org.jlleitschuh.gradle:ktlint-gradle:9.1.0")
+
 
 //    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1")
 

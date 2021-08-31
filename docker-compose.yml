@@ -1,0 +1,15 @@
+version: "3"
+services:
+  application:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://zest-db:3306/toy?useUnicode=true&characterEncoding=utf8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: zest
+    ports:
+      - 8080:8080
+      
+networks:
+  default:
+    external:
+      name: my-net

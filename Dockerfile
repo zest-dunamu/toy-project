@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk14-alpine
+FROM adoptopenjdk/openjdk14
 
 COPY build/libs/toy-project-0.0.1-SNAPSHOT.jar ./APP.jar
 
